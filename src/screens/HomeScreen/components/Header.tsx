@@ -1,4 +1,4 @@
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { HeaderLogo } from '../../../assets/images'
 
 export const Header = () => {
@@ -25,6 +25,9 @@ export const Header = () => {
           />
         </TouchableOpacity>
         <TouchableOpacity>
+          <View style={styles.unreadBadge}>
+            <Text style={styles.unreadBadgeNumber}>25</Text>
+          </View>
           <Image 
             style={styles.icon} 
             source={{
@@ -58,5 +61,21 @@ const styles = StyleSheet.create({
     height: 30,
     resizeMode: 'contain',
     marginLeft: 10
+  },
+  unreadBadge: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    zIndex: 100,
+    left: 20,
+    bottom: 18,
+    width: 26,
+    height: 19,
+    borderRadius: 25,
+    backgroundColor: '#FF3250',
+  },
+  unreadBadgeNumber: {
+    color: 'white',
+    fontWeight: '600',
   }
 })
