@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { HeaderLogo } from '../../../assets/images'
+import { HeaderLogo } from 'assets/images'
 
 export const Header = () => {
   return (

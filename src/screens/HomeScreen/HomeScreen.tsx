@@ -1,11 +1,12 @@
-import { SafeAreaView, Text, StyleSheet, Platform, StatusBar } from 'react-native';
+import { SafeAreaView, StyleSheet, Platform, StatusBar } from 'react-native';
 import { Header } from './components/Header';
+import { Stories } from './components/Stories';
 
 export const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Header />
-      <Text>HomeScreen</Text>
+      <Stories />
     </SafeAreaView>
   );
 };

@@ -1,13 +1,25 @@
+const path = require('path')
+
+const paths = {
+  assets: path.resolve(__dirname, 'assets'),
+  data: path.resolve(__dirname, 'data'),
+  src: path.resolve(__dirname, 'src'),
+}
+
 module.exports = function(api) {
   api.cache(true);
   return {
     plugins: [
       [
-        'module-resolver',
+        "module-resolver",
         {
           "root": './src',
+          "extensions": ['.js', '.jsx', '.es', '.es6', '.mjs', '.ts', '.tsx'],
           "alias": {
-            "@assets/*": "assets/*"
+            data: './src/data',
+            assets: './src/assets',
+            types: './src/types',
+            screens: './src/screens',
           }
         },
       ],
