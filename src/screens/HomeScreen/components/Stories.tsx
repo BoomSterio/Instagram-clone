@@ -1,6 +1,6 @@
-import { USERS } from 'data';
-import { ScrollView, Text, View } from 'react-native';
-import { StoryItem } from './StoryItem';
+import { USERS } from 'data'
+import { ScrollView, Text, View } from 'react-native'
+import { StoryItem } from './StoryItem'
 
 export const Stories = () => {
   return (
@@ -12,5 +12,5 @@ export const Stories = () => {
       </ScrollView>
       <Text>Stories</Text>
     </View>
-  );
-};
+  )
+}

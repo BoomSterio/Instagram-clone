@@ -3,7 +3,7 @@
   "tabWidth": 2,
   "printWidth": 120,
   "jsxBracketSameLine": false,
-  "semi": true,
+  "semi": false,
   "singleQuote": true,
   "arrowParens": "always",
   "endOfLine": "lf"
