@@ -73,8 +73,8 @@ const PostFooter = ({ likesCount, topComments, username, caption, commentsCount 
             <TouchableOpacity>
               <Text style={{ color: 'grey' }}>View all {commentsCount} comments</Text>
             </TouchableOpacity>
-            {topComments.map(({message, username: commentAuthor}) => (
-              <PostComment caption={message} username={commentAuthor} />
+            {topComments.map(({message, username: commentAuthor, id}) => (
+              <PostComment key={id} caption={message} username={commentAuthor} />
             ))}
           </>
         )}
