@@ -14,4 +14,5 @@ export interface Post {
   caption?: string
   likes?: number
   comments: Comment[]
+  commentsCount: number
 }

@@ -1,5 +1,6 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { HeaderLogo } from 'assets/images'
+import { HeaderLogo } from 'assets'
+import { IconButton } from 'components'
 
 export const Header = () => {
   return (
@@ -8,22 +9,14 @@ export const Header = () => {
         <Image style={styles.logo} source={HeaderLogo} />
       </TouchableOpacity>
       <View style={styles.iconsContainer}>
-        <TouchableOpacity>
-          <Image
-            style={styles.icon}
-            source={{
-              uri: 'https://img.icons8.com/fluency-systems-regular/60/ffffff/plus-2-math.png',
-            }}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={styles.icon}
-            source={{
-              uri: 'https://img.icons8.com/fluency-systems-regular/60/ffffff/like--v1.png',
-            }}
-          />
-        </TouchableOpacity>
+        <IconButton
+          icon={'https://img.icons8.com/fluency-systems-regular/60/ffffff/plus-2-math.png'}
+          imgStyle={styles.icon}
+        />
+        <IconButton
+          icon={'https://img.icons8.com/fluency-systems-regular/60/ffffff/like--v1.png'}
+          imgStyle={styles.icon}
+        />
         <TouchableOpacity>
           <View style={styles.unreadBadge}>
             <Text style={styles.unreadBadgeNumber}>25</Text>
