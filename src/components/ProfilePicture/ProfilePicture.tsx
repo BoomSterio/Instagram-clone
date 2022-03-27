@@ -8,6 +8,7 @@ interface ProfilePictureProps {
 
 export const ProfilePicture = ({ imageUrl, diameter }: ProfilePictureProps) => {
   const imageDiameter = diameter - diameter * 0.085
+  const gapDiameter = diameter / 25
 
   return (
     <LinearGradient
@@ -18,7 +19,13 @@ export const ProfilePicture = ({ imageUrl, diameter }: ProfilePictureProps) => {
     >
       <Image
         source={{ uri: imageUrl }}
-        style={{ width: imageDiameter, height: imageDiameter, borderRadius: imageDiameter / 2 }}
+        style={{
+          borderColor: 'black',
+          borderWidth: gapDiameter,
+          width: imageDiameter,
+          height: imageDiameter,
+          borderRadius: imageDiameter / 2,
+        }}
       />
     </LinearGradient>
   )

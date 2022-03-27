@@ -22,10 +22,12 @@ export const StoryItem = ({ user }: StoryItemProps) => {
 const styles = StyleSheet.create({
   userStory: {
     width: STORY_WIDTH,
-    marginLeft: 6,
+    marginLeft: 8,
     alignItems: 'center',
   },
   userName: {
     color: 'white',
+    fontSize: 12,
+    marginTop: 2
   },
 })

@@ -4,13 +4,12 @@ import { StoryItem } from './StoryItem'
 
 export const Stories = () => {
   return (
-    <View>
+    <View style={{marginBottom: 8}}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {USERS.map((user) => (
           <StoryItem key={user.id} user={user} />
         ))}
       </ScrollView>
-      <Text>Stories</Text>
     </View>
   )
 }
