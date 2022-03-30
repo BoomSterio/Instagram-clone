@@ -1,5 +1,6 @@
 export { default as HeaderLogo } from './header-logo.png'
 export { default as SaveIcon } from './bookmark.png'
+export { default as BackIcon } from './back-button.png'
 export { default as AddIcon } from './add.png'
 export { default as AddSelectedIcon } from './add-selected.png'
 export { default as CommentIcon } from './comment.png'
