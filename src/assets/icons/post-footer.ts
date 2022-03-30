@@ -1,7 +1,7 @@
-import { LikeIcon, RedLikeIcon, CommentIcon, DmIcon, SaveIcon } from "assets";
+import { ActivityIcon, RedLikeIcon, CommentIcon, DmIcon, SaveIcon } from '../images'
 
 export const postFooterIcons = {
-  like: LikeIcon,
+  like: ActivityIcon,
   filledLike: RedLikeIcon,
   comment: CommentIcon,
   share: DmIcon,
