@@ -1,3 +1,4 @@
+import { Navbar } from 'components'
 import { SafeAreaView, StyleSheet, Platform, StatusBar, ScrollView } from 'react-native'
 import { Header } from './components/Header'
 import { Posts } from './components/Posts'
@@ -11,6 +12,7 @@ export const HomeScreen = () => {
         <Stories />
         <Posts />
       </ScrollView>
+      <Navbar />
     </SafeAreaView>
   )
 }

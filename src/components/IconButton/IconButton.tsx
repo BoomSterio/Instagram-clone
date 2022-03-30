@@ -8,19 +8,14 @@ import {
   ImageStyle,
 } from 'react-native'
 
-interface IconButtonProps {
+interface IconButtonProps extends TouchableOpacityProps {
   icon: ImageSourcePropType | string
   imgProps?: ImageProps
   imgStyle?: StyleProp<ImageStyle>
 }
 
-export const IconButton = ({
-  icon,
-  imgProps,
-  imgStyle,
-  ...props
-}: IconButtonProps) => {
-  const source = typeof icon === 'string' ? {uri: icon} : icon
+export const IconButton = ({ icon, imgProps, imgStyle, ...props }: IconButtonProps) => {
+  const source = typeof icon === 'string' ? { uri: icon } : icon
 
   return (
     <TouchableOpacity {...props}>

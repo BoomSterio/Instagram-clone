@@ -28,6 +28,6 @@ const styles = StyleSheet.create({
   userName: {
     color: 'white',
     fontSize: 12,
-    marginTop: 2
+    marginTop: 2,
   },
 })
