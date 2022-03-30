@@ -9,7 +9,7 @@ export const POSTS: Post[] = [
     profileImageUrl: 'https://e3.365dm.com/21/11/800x600/skynews-biden-joe_5567734.jpg',
     likes: 5427,
     caption: 'The only way to speak with jews',
-    commentsCount: 21,
+    commentsCount: 14,
     comments: [
       {
         id: 'wefs98hfsiuw31',
