@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Platform, StatusBar } from 'react-native'
+import { SafeAreaView, StyleSheet, Platform, StatusBar, ScrollView } from 'react-native'
 import { Header } from './components/Header'
 import { Posts } from './components/Posts'
 import { Stories } from './components/Stories'
@@ -7,8 +7,10 @@ export const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Header />
-      <Stories />
-      <Posts />
+      <ScrollView>
+        <Stories />
+        <Posts />
+      </ScrollView>
     </SafeAreaView>
   )
 }

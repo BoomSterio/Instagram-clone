@@ -1,5 +1,5 @@
 import { USERS } from 'data'
-import { ScrollView, Text, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { StoryItem } from './StoryItem'
 
 export const Stories = () => {

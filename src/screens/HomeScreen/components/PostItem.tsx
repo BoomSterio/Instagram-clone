@@ -1,7 +1,6 @@
 import { postFooterIcons } from 'assets'
 import { IconButton, ProfilePicture } from 'components'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Divider } from 'react-native-elements'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
 import { Comment, Post } from 'types'
 
@@ -68,12 +67,16 @@ const PostFooter = ({ likesCount, topComments, username, caption, commentsCount 
       <View style={{ marginLeft: 10 }}>
         {likesCount && <Text style={{ color: 'white', fontWeight: '700', marginTop: 4 }}>{likesCount} likes</Text>}
         <PostComment username={username} caption={caption} />
-        {topComments?.length && (
+        {commentsCount && (
+          <TouchableOpacity>
+            <Text style={{ color: 'grey' }}>
+              View {commentsCount > 1 ? `all ${commentsCount} comments` : `${commentsCount} comment`}
+            </Text>
+          </TouchableOpacity>
+        )}
+        {topComments?.length > 0 && (
           <>
-            <TouchableOpacity>
-              <Text style={{ color: 'grey' }}>View all {commentsCount} comments</Text>
-            </TouchableOpacity>
-            {topComments.map(({message, username: commentAuthor, id}) => (
+            {topComments?.map(({ message, username: commentAuthor, id }) => (
               <PostComment key={id} caption={message} username={commentAuthor} />
             ))}
           </>
@@ -95,7 +98,6 @@ export const PostItem = ({
 }: PostItemProps) => {
   return (
     <View>
-      <Divider width={1} orientation={'vertical'} />
       <PostHeader username={username} profileImageUrl={profileImageUrl} />
       <PostImage imageUrl={imageUrl} />
       <PostFooter
@@ -126,7 +128,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   postImageWrapper: {
-    height: 450,
+    maxHeight: 450,
     width: '100%',
   },
   postImage: {

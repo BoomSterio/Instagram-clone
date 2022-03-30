@@ -1,15 +1,15 @@
 import { POSTS } from 'data'
-import { ScrollView, StyleSheet } from 'react-native'
+import { View } from 'react-native'
+import { Divider } from 'react-native-elements/dist/divider/Divider'
 import { PostItem } from './PostItem'
 
 export const Posts = () => {
   return (
-    <ScrollView>
+    <View>
+      <Divider width={1} orientation={'vertical'} />
       {POSTS.map((post) => (
         <PostItem key={post.id} post={post} />
       ))}
-    </ScrollView>
+    </View>
   )
 }
-
-const styles = StyleSheet.create({})
