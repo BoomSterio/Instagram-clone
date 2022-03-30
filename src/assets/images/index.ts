@@ -1,1 +1,8 @@
-export { default as HeaderLogo } from './header-logo.png';
+export { default as HeaderLogo } from './header-logo.png'
+export { default as SaveIcon } from './bookmark.png'
+export { default as AddIcon } from './add.png'
+export { default as CommentIcon } from './comment.png'
+export { default as DmIcon } from './direct-message.png'
+export { default as LikeIcon } from './like.png'
+export { default as RedLikeIcon } from './red-heart.png'
+export { default as HomeIcon } from './home.png'

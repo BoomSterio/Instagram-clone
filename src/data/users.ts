@@ -1,34 +1,36 @@
-import { User } from "types";
+import { User } from 'types'
 
 export const USERS: User[] = [
   {
-    id: 'c90suc329h8c',
-    username: 'marcozucc',
-    image: 'https://ichef.bbci.co.uk/news/976/cpsprodpb/DD74/production/_123129665_mark_zuckerberg_getty.jpg'
-  },
-  {
-    id: 'c90w8cvh0ewhc',
-    username: 'elonmusk',
-    image: 'https://i.insider.com/6203b195019b02001851e8b5?width=700'
-  },
-  {
     id: '98n3y29s0sde',
     username: 'hoebiden',
-    image: 'https://e3.365dm.com/21/11/800x600/skynews-biden-joe_5567734.jpg'
+    image: 'https://e3.365dm.com/21/11/800x600/skynews-biden-joe_5567734.jpg',
   },
   {
     id: 'ojevib0kim0er9',
     username: 'bidenwakeup',
-    image: 'https://i.imgflip.com/59m865.jpg'
+    image: 'https://i.imgflip.com/59m865.jpg',
   },
   {
-    id: 'pojfm9ef9c3zcc',
-    username: 'marcozucc',
-    image: 'https://imageio.forbes.com/specials-images/imageserve/60ede06c39d1b0ed3859d7ab/0x0.jpg?format=jpg&crop=2155,1437,x0,y0,safe&fit=crop'
+    id: 'brhhb5trg2ex23sa',
+    username: 'willsmithofficial',
+    image:
+      'https://townsquare.media/site/366/files/2022/03/attachment-Will-Smith-Slaps-Chris-Rock-at-2022-Oscars.jpg?w=980&q=75',
   },
   {
-    id: 'svfnu8sf98efnyw',
+    id: '0zxwefmjsim9u3w',
+    username: 'aboba5427',
+    image:
+      'https://t2.genius.com/unsafe/409x409/https%3A%2F%2Fimages.genius.com%2Fd0d5f2cc3c6b0f369b77a6c429499887.959x959x1.jpg',
+  },
+  {
+    id: 'c90suc329h8c',
     username: 'marcozucc',
-    image: 'https://imageio.forbes.com/specials-images/imageserve/60ede06c39d1b0ed3859d7ab/0x0.jpg?format=jpg&crop=2155,1437,x0,y0,safe&fit=crop'
+    image: 'https://ichef.bbci.co.uk/news/976/cpsprodpb/DD74/production/_123129665_mark_zuckerberg_getty.jpg',
+  },
+  {
+    id: 'c90w8cvh0ewhc',
+    username: 'elonmusk',
+    image: 'https://i.insider.com/6203b195019b02001851e8b5?width=700',
   },
 ]
