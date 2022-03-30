@@ -5,8 +5,6 @@ import {
   AddSelectedIcon,
   HomeIcon,
   HomeSelectedIcon,
-  ProfileIcon,
-  ProfileSelectedIcon,
   SearchIcon,
   SearchSelectedIcon,
 } from 'assets'
@@ -49,7 +47,8 @@ export const navbarTabs: MenuItem[] = [
   },
   {
     name: NavTab.Profile,
-    selectedIcon: ProfileSelectedIcon,
-    icon: ProfileIcon,
+    selectedIcon:
+      'https://t2.genius.com/unsafe/409x409/https%3A%2F%2Fimages.genius.com%2Fd0d5f2cc3c6b0f369b77a6c429499887.959x959x1.jpg',
+    icon: 'https://t2.genius.com/unsafe/409x409/https%3A%2F%2Fimages.genius.com%2Fd0d5f2cc3c6b0f369b77a6c429499887.959x959x1.jpg',
   },
 ]
