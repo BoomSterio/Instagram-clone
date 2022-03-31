@@ -1,11 +1,19 @@
 import { View, Text } from 'react-native'
 import {createStackNavigator} from '@react-navigation/stack'
-import {NavigationContainer} from '@react-navigation/stack'
+import {NavigationContainer} from '@react-navigation/native'
 
-export const Navigation = () => {
+const Stack = createStackNavigator()
+
+const screenOptions = {
+  headerShown: false
+}
+
+export const SignedInStack = () => {
   return (
-    <View>
-      <Text>Navigation</Text>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }
