@@ -17,10 +17,7 @@ export const Navbar = () => {
               name === NavTab.Profile ? styles.profilePic() : null,
               name === NavTab.Profile && activeTab === NavTab.Profile ? styles.profilePic(activeTab) : null,
             ]}
-            imgStyle={[
-              styles.icon,
-              name === NavTab.Profile ? styles.profilePic() : null,
-            ]}
+            imgStyle={[styles.icon, name === NavTab.Profile ? styles.profilePic() : null]}
             key={name}
             icon={currentIcon}
             onPress={() => setActiveTab(name)}

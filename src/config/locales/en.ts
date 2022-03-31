@@ -1,4 +1,4 @@
-import { RawLocalesList } from '.';
+import { RawLocalesList } from '.'
 
 const messages: RawLocalesList = {
   login: {
@@ -11,8 +11,7 @@ const messages: RawLocalesList = {
   passwordRecovery: {
     userEmail: 'E-mail',
     submit: 'Send E-mail',
-    description:
-      'Please enter your e-mail address! You will receive an e-mail in order to create a new password.',
+    description: 'Please enter your e-mail address! You will receive an e-mail in order to create a new password.',
     haveAnAccount: 'Have an account?',
   },
   messages: {
@@ -36,6 +35,6 @@ const messages: RawLocalesList = {
     maxLength: `Max length {length, number} characters`,
     exactLength: `Should be exactly {length, number} characters`,
   },
-};
+}
 
-export default messages;
+export default messages

@@ -9,7 +9,7 @@ export const Header = () => {
         icon={{ uri: 'https://img.icons8.com/ios-glyphs/90/ffffff/back--v1.png' }}
       />
       <Text style={styles.text}>New Post</Text>
-      <View></View>
+      <View />
     </View>
   )
 }

@@ -1,18 +1,19 @@
-import { useFormik } from 'formik';
-import { useMemo, useState } from 'react';
-import { useIntl } from 'react-intl';
+import { useFormik } from 'formik'
+import { useMemo, useState } from 'react'
+import { useIntl } from 'react-intl'
 import { Image, StyleSheet, TextInput, View } from 'react-native'
 import * as yup from 'yup'
 
-const PLACEHOLDER_IMG = 'https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc='
+const PLACEHOLDER_IMG =
+  'https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc='
 
 interface AddPostState {
-  caption: string;
-  imageUrl: string;
+  caption: string
+  imageUrl: string
 }
 
 export const AddPostForm = () => {
-  const intl = useIntl();
+  const intl = useIntl()
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -20,13 +21,16 @@ export const AddPostForm = () => {
         .string()
         .max(2000, intl.formatMessage({ id: 'messages.maxLength' }, { length: 2000 }))
         .required(intl.formatMessage({ id: 'messages.required' })),
-      imageUrl: yup.string().url().required(intl.formatMessage({ id: 'messages.required' })),
-    });
-  }, [intl]);
+      imageUrl: yup
+        .string()
+        .url()
+        .required(intl.formatMessage({ id: 'messages.required' })),
+    })
+  }, [intl])
 
   const [initialValues] = useState({
     caption: '',
-    imageUrl: PLACEHOLDER_IMG
+    imageUrl: '',
   })
 
   const {
@@ -34,6 +38,7 @@ export const AddPostForm = () => {
     errors,
     touched,
     handleSubmit,
+    handleBlur,
     handleChange,
     isSubmitting,
     isValidating,
@@ -42,34 +47,51 @@ export const AddPostForm = () => {
   } = useFormik<AddPostState>({
     initialValues,
     validationSchema,
-    onSubmit: async (values) => {
-
-    },
-  });
+    onSubmit: async (v) => {},
+  })
 
   return (
-    <View>
-      <Image style={styles.image} source={{uri: values.imageUrl}} />
+    <View style={styles.container}>
+      <View style={styles.top}>
+        <Image style={styles.image} source={{ uri: values.imageUrl ? values.imageUrl : PLACEHOLDER_IMG }} />
+        <TextInput
+          style={[styles.textInput, {flex: 1}]}
+          placeholder="Describe your post..."
+          placeholderTextColor={'gray'}
+          multiline
+          value={values.caption}
+          onChangeText={handleChange('caption')}
+          onBlur={handleBlur('caption')}
+        />
+      </View>
       <TextInput
-        style={{color: '#fff'}}
-        placeholder='Describe your post...'
-        placeholderTextColor={'gray'}
-        multiline
-        value={values.caption}
-        onChangeText={handleChange('caption')}
-      />
-      <TextInput
-        style={{color: '#fff'}}
-        placeholder='Enter image URL...'
-        placeholderTextColor={'gray'}
-      />
+          style={styles.textInput}
+          placeholder="Enter image URL..."
+          placeholderTextColor={'gray'}
+          value={values.imageUrl}
+          onChangeText={handleChange('imageUrl')}
+        />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    margin: 20,
+  },
+  top: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 20,
+  },
   image: {
     width: 100,
     height: 120,
-  }
+    marginRight: 12,
+  },
+  textInput: {
+    fontSize: 18,
+    color: '#fff',
+  },
 })

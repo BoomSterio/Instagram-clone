@@ -1,11 +1,11 @@
-import messages_en from './en';
+import messages_en from './en'
 
 export interface RawLocalesList {
-  [key: string]: string | RawLocalesList;
+  [key: string]: string | RawLocalesList
 }
 
 export interface LocalesList {
-  [key: string]: string;
+  [key: string]: string
 }
 
 export enum localesLanguages {
@@ -13,30 +13,30 @@ export enum localesLanguages {
 }
 
 const parseLocalesList = (object: RawLocalesList, parentKey?: string): LocalesList => {
-  const keys = Object.keys(object);
+  const keys = Object.keys(object)
 
   return keys.reduce<LocalesList>((acc, key) => {
-    const value = object[key];
-    const objectKey = parentKey ? `${parentKey}.${key}` : key;
+    const value = object[key]
+    const objectKey = parentKey ? `${parentKey}.${key}` : key
 
     if (typeof value === 'string') {
       return {
         ...acc,
         [objectKey]: value,
-      };
+      }
     }
 
     return {
       ...acc,
       ...parseLocalesList(value, objectKey),
-    };
-  }, {});
-};
+    }
+  }, {})
+}
 
 const locales: Record<localesLanguages, LocalesList> = {
   en: parseLocalesList(messages_en),
-};
+}
 
-export const defaultLocale = localesLanguages.en;
+export const defaultLocale = localesLanguages.en
 
-export default locales;
+export default locales
