@@ -20,6 +20,9 @@ module.exports = function(api) {
             assets: './src/assets',
             types: './src/types',
             screens: './src/screens',
+            providers: './src/providers',
+            config: './src/config',
+            components: './src/components',
           }
         },
       ],
