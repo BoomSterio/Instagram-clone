@@ -39,6 +39,6 @@ export const signedInRoutes: Route[] = [
 export const signedOutRoutes: Route[] = [
   {
     name: NavTab.LogIn,
-    component: LogInScreen
-  }
+    component: LogInScreen,
+  },
 ]

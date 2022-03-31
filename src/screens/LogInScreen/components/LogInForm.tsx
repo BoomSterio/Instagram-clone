@@ -45,7 +45,7 @@ export const LogInForm = () => {
     <View>
       <TextInput
         containerStyle={styles.inputField}
-        wrapperStyle={{marginBottom: 10}}
+        wrapperStyle={{ marginBottom: 10 }}
         placeholder="Phone number, username or email"
         placeholderTextColor={'#444'}
         autoCapitalize="none"
@@ -60,7 +60,7 @@ export const LogInForm = () => {
       />
       <TextInput
         containerStyle={styles.inputField}
-        wrapperStyle={{marginBottom: 10}}
+        wrapperStyle={{ marginBottom: 10 }}
         placeholder="Password"
         placeholderTextColor={'#444'}
         autoCapitalize="none"
@@ -77,7 +77,7 @@ export const LogInForm = () => {
       <View style={{ alignItems: 'flex-end', marginBottom: 30 }}>
         <Text style={{ color: '#03a1fc' }}>Forgor password? 💀</Text>
       </View>
-      <Button style={styles.button} title="Log in" onPress={() => {}} disabled={!isValid} />
+      <Button style={styles.button} title="Log in" onPress={() => handleSubmit()} disabled={!isValid} />
       <View style={styles.signUpContainer}>
         <Text style={{ color: '#000' }}>Don't have an account? </Text>
         <TouchableOpacity>
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   signUpContainer: {
     flexDirection: 'row',
-    marginTop: 35,
+    marginTop: 40,
     width: '100%',
     justifyContent: 'center',
   },

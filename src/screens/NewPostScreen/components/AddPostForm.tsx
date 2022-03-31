@@ -38,15 +38,7 @@ export const AddPostForm = () => {
     imageUrl: '',
   })
 
-  const {
-    values,
-    errors,
-    touched,
-    handleSubmit,
-    handleBlur,
-    handleChange,
-    isValid,
-  } = useFormik<AddPostState>({
+  const { values, errors, touched, handleSubmit, handleBlur, handleChange, isValid } = useFormik<AddPostState>({
     initialValues,
     validationSchema,
     validateOnMount: true,
@@ -59,7 +51,10 @@ export const AddPostForm = () => {
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-        <Image style={styles.image} source={{ uri: validUrl.isUri(values.imageUrl) ? values.imageUrl : PLACEHOLDER_IMG }} />
+        <Image
+          style={styles.image}
+          source={{ uri: validUrl.isUri(values.imageUrl) ? values.imageUrl : PLACEHOLDER_IMG }}
+        />
         <TextInput
           style={[styles.textInput, { marginRight: 110 }]}
           placeholder="Enter image URL..."

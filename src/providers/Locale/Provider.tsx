@@ -16,10 +16,11 @@ const Provider: FunctionComponent<Props> = ({ children, persistKey = 'locale' })
   const [locale, setLocale] = useState<localesLanguages>(localesLanguages.en)
 
   useEffect(() => {
-    ;(async () => {
+    const getLocale = async () => {
       const value = await AsyncStorage.getItem(persistKey)
       setLocale((value && value in localesLanguages && (value as localesLanguages)) || defaultLocale)
-    })()
+    }
+    getLocale()
   }, [])
 
   const handleIntlProviderError: OnErrorFn = (err) => {
@@ -29,13 +30,14 @@ const Provider: FunctionComponent<Props> = ({ children, persistKey = 'locale' })
   }
 
   useEffect(() => {
-    ;(async () => {
+    const saveLocale = async () => {
       try {
         await AsyncStorage.setItem(persistKey, locale)
       } catch (error) {
         console.warn(error)
       }
-    })()
+    }
+    saveLocale()
   }, [locale, persistKey])
 
   return (

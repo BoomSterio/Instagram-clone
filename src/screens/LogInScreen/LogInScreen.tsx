@@ -20,14 +20,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
   },
   logoWrapper: {
     alignItems: 'center',
-    marginVertical: 60
+    marginVertical: 60,
   },
   logo: {
     width: 90,
-    height: 90
-  }
+    height: 90,
+  },
 })
