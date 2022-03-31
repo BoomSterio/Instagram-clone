@@ -6,10 +6,14 @@ interface TextInputProps extends NativeTextInputProps {
 }
 
 export const TextInput = ({ error, touched, ...props }: TextInputProps) => {
-  const helperText = error && touched ? error : null
+  const hasError = Boolean(error && touched)
+  const helperText = hasError ? error : null
+
   return (
     <View>
-      <NativeTextInput style={[styles.input(Boolean(error && touched))]} {...props} />
+      <View style={styles.input(hasError)}>
+        <NativeTextInput {...props} />
+      </View>
       {helperText && <Text style={styles.helperText}>{helperText}</Text>}
     </View>
   )
@@ -23,7 +27,7 @@ interface Style {
 const styles = StyleSheet.create<Style>({
   input: (error?: boolean) => ({
     borderRadius: 4,
-    borderWidth: 2,
+    borderBottomWidth: 1,
     borderColor: error ? 'red' : 'transparent',
     padding: 4,
   }),
