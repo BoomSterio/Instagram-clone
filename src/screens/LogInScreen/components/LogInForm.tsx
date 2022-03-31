@@ -44,7 +44,7 @@ export const LogInForm = () => {
   return (
     <View>
       <TextInput
-        containerStyle={styles.inputField}
+        containerStyle={styles.inputField(Boolean(errors.login && touched.login))}
         wrapperStyle={{ marginBottom: 10 }}
         placeholder="Phone number, username or email"
         placeholderTextColor={'#444'}
@@ -59,7 +59,7 @@ export const LogInForm = () => {
         touched={touched.login}
       />
       <TextInput
-        containerStyle={styles.inputField}
+        containerStyle={styles.inputField(Boolean(errors.password && touched.password))}
         wrapperStyle={{ marginBottom: 10 }}
         placeholder="Password"
         placeholderTextColor={'#444'}
@@ -77,7 +77,7 @@ export const LogInForm = () => {
       <View style={{ alignItems: 'flex-end', marginBottom: 30 }}>
         <Text style={{ color: '#03a1fc' }}>Forgor password? 💀</Text>
       </View>
-      <Button style={styles.button} title="Log in" onPress={() => handleSubmit()} disabled={!isValid} />
+      <Button style={styles.button(isValid)} title="Log in" onPress={() => handleSubmit()} disabled={!isValid} />
       <View style={styles.signUpContainer}>
         <Text style={{ color: '#000' }}>Don't have an account? </Text>
         <TouchableOpacity>
@@ -88,18 +88,18 @@ export const LogInForm = () => {
   )
 }
 
-const styles = StyleSheet.create({
-  inputField: {
+const styles = StyleSheet.create<any>({
+  inputField: (error?: boolean) => ({
     borderRadius: 4,
     paddingHorizontal: 12,
     paddingVertical: 8,
     backgroundColor: '#FAFAFA',
     borderWidth: 1,
-    borderColor: '#cfcfcf',
-  },
-  button: {
-    backgroundColor: '#03a1fc',
-  },
+    borderColor: error ? 'red' : '#cfcfcf',
+  }),
+  button: (isValid: boolean) => ({
+    backgroundColor: isValid ? '#03a1fc' : '#9ACAF7',
+  }),
   signUpContainer: {
     flexDirection: 'row',
     marginTop: 40,
