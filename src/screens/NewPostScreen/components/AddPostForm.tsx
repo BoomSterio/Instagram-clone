@@ -1,4 +1,4 @@
-import { TextInput } from 'components'
+import { Button, TextInput } from 'components'
 import { useFormik } from 'formik'
 import { useMemo, useState } from 'react'
 import { useIntl } from 'react-intl'
@@ -45,9 +45,11 @@ export const AddPostForm = () => {
     isValidating,
     setFieldValue,
     resetForm,
+    isValid,
   } = useFormik<AddPostState>({
     initialValues,
     validationSchema,
+    validateOnMount: true,
     onSubmit: async (v) => {},
   })
 
@@ -56,7 +58,7 @@ export const AddPostForm = () => {
       <View style={styles.top}>
         <Image style={styles.image} source={{ uri: values.imageUrl ? values.imageUrl : PLACEHOLDER_IMG }} />
         <TextInput
-          style={[styles.textInput, {marginRight: 110}]}
+          style={[styles.textInput, { marginRight: 110 }]}
           placeholder="Enter image URL..."
           placeholderTextColor={'gray'}
           value={values.imageUrl}
@@ -77,6 +79,7 @@ export const AddPostForm = () => {
         error={errors.caption}
         touched={touched.caption}
       />
+      <Button style={styles.button} title="Share" onPress={() => handleSubmit()} disabled={!isValid} />
     </View>
   )
 }
@@ -100,4 +103,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#fff',
   },
+  button: {
+    marginTop: 12,
+  }
 })
