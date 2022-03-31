@@ -1,24 +1,27 @@
 import {
+  StyleProp,
   StyleSheet,
   Text,
   TextInput as NativeTextInput,
   TextInputProps as NativeTextInputProps,
   TextStyle,
   View,
+  ViewStyle,
 } from 'react-native'
 
 interface TextInputProps extends NativeTextInputProps {
   error?: string
   touched?: boolean
+  containerStyle?: StyleProp<ViewStyle>
 }
 
-export const TextInput = ({ error, touched, ...props }: TextInputProps) => {
+export const TextInput = ({ error, touched, containerStyle, ...props }: TextInputProps) => {
   const hasError = Boolean(error && touched)
   const helperText = hasError ? error : null
 
   return (
     <View>
-      <View style={styles.input(hasError)}>
+      <View style={[styles.input(hasError), containerStyle]}>
         <NativeTextInput {...props} />
       </View>
       {helperText && <Text style={styles.helperText}>{helperText}</Text>}

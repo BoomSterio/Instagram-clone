@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
-import { NavTab, signInRoutes } from 'config'
+import { NavTab, signedInRoutes, signedOutRoutes, Route } from 'config'
 
 const Stack = createStackNavigator()
 
@@ -12,7 +12,19 @@ export const SignedInStack = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={NavTab.Home} screenOptions={screenOptions}>
-        {signInRoutes.map((route) => (
+        {signedInRoutes.map((route: Route) => (
+          <Stack.Screen key={route.name} name={route.name} component={route.component} />
+        ))}
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
+
+export const SignedOutStack = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={NavTab.LogIn} screenOptions={screenOptions}>
+        {signedOutRoutes.map((route: Route) => (
           <Stack.Screen key={route.name} name={route.name} component={route.component} />
         ))}
       </Stack.Navigator>

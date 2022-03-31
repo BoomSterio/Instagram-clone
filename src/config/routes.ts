@@ -1,6 +1,5 @@
 import { ComponentType } from 'react'
-import { HomeScreen } from 'screens'
-import { NewPostScreen } from 'screens/NewPostScreen/NewPostScreen'
+import { HomeScreen, LogInScreen, NewPostScreen } from 'screens'
 import { StackNavigationProp } from '@react-navigation/stack'
 
 export enum NavTab {
@@ -10,6 +9,8 @@ export enum NavTab {
   Add = 'Add',
   Activity = 'Activity',
   Profile = 'Profile',
+  LogIn = 'LogIn',
+  SignIn = 'SignIn',
 }
 
 type StackParamList = {
@@ -19,12 +20,12 @@ type StackParamList = {
 
 export type NavigationProps = StackNavigationProp<StackParamList>
 
-interface Route {
+export interface Route {
   name: string
   component: ComponentType
 }
 
-export const signInRoutes: Route[] = [
+export const signedInRoutes: Route[] = [
   {
     name: NavTab.Home,
     component: HomeScreen,
@@ -35,4 +36,9 @@ export const signInRoutes: Route[] = [
   },
 ]
 
-export const unsignedRoutes: Route[] = []
+export const signedOutRoutes: Route[] = [
+  {
+    name: NavTab.LogIn,
+    component: LogInScreen
+  }
+]
