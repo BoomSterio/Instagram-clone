@@ -1,7 +1,7 @@
 import { Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native'
 
-export const SafeAreaContainer: React.FC = ({ children }) => {
-  return <SafeAreaView style={styles.container}>{children}</SafeAreaView>
+export const SafeAreaContainer: React.FC<any> = ({ children, style }) => {
+  return <SafeAreaView style={[styles.container, style]}>{children}</SafeAreaView>
 }
 
 const styles = StyleSheet.create({
