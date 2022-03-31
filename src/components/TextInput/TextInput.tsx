@@ -13,14 +13,15 @@ interface TextInputProps extends NativeTextInputProps {
   error?: string
   touched?: boolean
   containerStyle?: StyleProp<ViewStyle>
+  wrapperStyle?: StyleProp<ViewStyle>
 }
 
-export const TextInput = ({ error, touched, containerStyle, ...props }: TextInputProps) => {
+export const TextInput = ({ error, touched, containerStyle, wrapperStyle, ...props }: TextInputProps) => {
   const hasError = Boolean(error && touched)
   const helperText = hasError ? error : null
 
   return (
-    <View>
+    <View style={wrapperStyle}>
       <View style={[styles.input(hasError), containerStyle]}>
         <NativeTextInput {...props} />
       </View>
@@ -43,6 +44,6 @@ const styles = StyleSheet.create<Style>({
   }),
   helperText: {
     color: 'red',
-    fontSize: 10,
+    fontSize: 12,
   },
 })
