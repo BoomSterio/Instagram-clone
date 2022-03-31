@@ -1,11 +1,13 @@
-import { BackIcon } from 'assets'
 import { IconButton } from 'components'
 import { StyleSheet, Text, View } from 'react-native'
 
 export const Header = () => {
   return (
     <View style={styles.container}>
-      <IconButton imgStyle={styles.backButton} icon={{uri: 'https://img.icons8.com/ios-glyphs/90/ffffff/back--v1.png'}} />
+      <IconButton
+        imgStyle={styles.backButton}
+        icon={{ uri: 'https://img.icons8.com/ios-glyphs/90/ffffff/back--v1.png' }}
+      />
       <Text style={styles.text}>New Post</Text>
       <View></View>
     </View>
@@ -27,6 +29,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '700',
     fontSize: 18,
-    marginRight: 24
-  }
+    marginRight: 24,
+  },
 })
