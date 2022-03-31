@@ -1,4 +1,11 @@
-import { StyleSheet, Text, TextInput as NativeTextInput, TextInputProps as NativeTextInputProps, TextStyle, View } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  TextInput as NativeTextInput,
+  TextInputProps as NativeTextInputProps,
+  TextStyle,
+  View,
+} from 'react-native'
 
 interface TextInputProps extends NativeTextInputProps {
   error?: string
@@ -33,6 +40,6 @@ const styles = StyleSheet.create<Style>({
   }),
   helperText: {
     color: 'red',
-    fontSize: 10
-  }
+    fontSize: 10,
+  },
 })

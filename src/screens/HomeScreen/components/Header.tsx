@@ -1,8 +1,12 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { HeaderLogo } from 'assets'
 import { IconButton } from 'components'
+import { useNavigation } from '@react-navigation/native'
+import { NavigationProps, NavTab } from 'config'
 
 export const Header = () => {
+  const navigation = useNavigation<NavigationProps>()
+
   return (
     <View style={styles.container}>
       <TouchableOpacity>
@@ -12,6 +16,7 @@ export const Header = () => {
         <IconButton
           icon={'https://img.icons8.com/fluency-systems-regular/60/ffffff/plus-2-math.png'}
           imgStyle={styles.icon}
+          onPress={() => navigation.push(NavTab.NewPost)}
         />
         <IconButton
           icon={'https://img.icons8.com/fluency-systems-regular/60/ffffff/like--v1.png'}

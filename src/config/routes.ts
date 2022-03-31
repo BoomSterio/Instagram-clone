@@ -1,5 +1,7 @@
-import { ReactNode } from "react";
-import { HomeScreen } from "screens";
+import { ComponentType } from 'react'
+import { HomeScreen } from 'screens'
+import { NewPostScreen } from 'screens/NewPostScreen/NewPostScreen'
+import { StackNavigationProp } from '@react-navigation/stack'
 
 export enum NavTab {
   Home = 'Home',
@@ -10,19 +12,26 @@ export enum NavTab {
   Profile = 'Profile',
 }
 
+type StackParamList = {
+  Home: undefined
+  NewPost: undefined
+}
+
+export type NavigationProps = StackNavigationProp<StackParamList>
+
 interface Route {
-  name: string,
-  component: ReactNode
+  name: string
+  component: ComponentType
 }
 
 export const signInRoutes: Route[] = [
   {
     name: NavTab.Home,
-    component: HomeScreen
+    component: HomeScreen,
   },
   {
-    name: NavTab.Home,
-    component: HomeScreen
+    name: NavTab.NewPost,
+    component: NewPostScreen,
   },
 ]
 
