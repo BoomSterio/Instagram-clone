@@ -9,14 +9,7 @@ import {
   SearchSelectedIcon,
 } from 'assets'
 import { ImageSourcePropType } from 'react-native'
-
-export enum NavTab {
-  Home = 'Home',
-  Search = 'Search',
-  Add = 'Add',
-  Activity = 'Activity',
-  Profile = 'Profile',
-}
+import { NavTab } from './routes'
 
 export interface MenuItem {
   name: NavTab

@@ -16,7 +16,7 @@ const Provider: FunctionComponent<Props> = ({ children, persistKey = 'locale' })
   const [locale, setLocale] = useState<localesLanguages>(localesLanguages.en)
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const value = await AsyncStorage.getItem(persistKey)
       setLocale((value && value in localesLanguages && (value as localesLanguages)) || defaultLocale)
     })()
@@ -29,7 +29,7 @@ const Provider: FunctionComponent<Props> = ({ children, persistKey = 'locale' })
   }
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       try {
         await AsyncStorage.setItem(persistKey, locale)
       } catch (error) {

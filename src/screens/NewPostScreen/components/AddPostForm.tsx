@@ -4,6 +4,9 @@ import { useMemo, useState } from 'react'
 import { useIntl } from 'react-intl'
 import { Image, StyleSheet, View } from 'react-native'
 import * as yup from 'yup'
+import { useNavigation } from '@react-navigation/native'
+import { NavigationProps } from 'config'
+import validUrl from 'valid-url'
 
 const PLACEHOLDER_IMG =
   'https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc='
@@ -14,6 +17,7 @@ interface AddPostState {
 }
 
 export const AddPostForm = () => {
+  const navigation = useNavigation<NavigationProps>()
   const intl = useIntl()
 
   const validationSchema = useMemo(() => {
@@ -41,22 +45,21 @@ export const AddPostForm = () => {
     handleSubmit,
     handleBlur,
     handleChange,
-    isSubmitting,
-    isValidating,
-    setFieldValue,
-    resetForm,
     isValid,
   } = useFormik<AddPostState>({
     initialValues,
     validationSchema,
     validateOnMount: true,
-    onSubmit: async (v) => {},
+    onSubmit: async (v) => {
+      console.log(v)
+      navigation.goBack()
+    },
   })
 
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-        <Image style={styles.image} source={{ uri: values.imageUrl ? values.imageUrl : PLACEHOLDER_IMG }} />
+        <Image style={styles.image} source={{ uri: validUrl.isUri(values.imageUrl) ? values.imageUrl : PLACEHOLDER_IMG }} />
         <TextInput
           style={[styles.textInput, { marginRight: 110 }]}
           placeholder="Enter image URL..."
@@ -105,5 +108,5 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 12,
-  }
+  },
 })

@@ -1,11 +1,21 @@
-import { View, Text } from 'react-native'
-import {createStackNavigator} from '@react-navigation/stack'
-import {NavigationContainer} from '@react-navigation/stack'
+import { createStackNavigator } from '@react-navigation/stack'
+import { NavigationContainer } from '@react-navigation/native'
+import { NavTab, signInRoutes } from 'config'
 
-export const Navigation = () => {
+const Stack = createStackNavigator()
+
+const screenOptions = {
+  headerShown: false,
+}
+
+export const SignedInStack = () => {
   return (
-    <View>
-      <Text>Navigation</Text>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={NavTab.Home} screenOptions={screenOptions}>
+        {signInRoutes.map((route) => (
+          <Stack.Screen key={route.name} name={route.name} component={route.component} />
+        ))}
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }

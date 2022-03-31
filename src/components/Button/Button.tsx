@@ -8,7 +8,7 @@ interface ButtonProps extends PressableProps {
 export const Button = ({ title = 'OK', style, disabled, ...props }: ButtonProps) => {
   return (
     <Pressable style={[style, styles.button]} {...props}>
-      <Text style={{color: disabled ? 'gray' : '#fff', ...styles.text}}>{title}</Text>
+      <Text style={{ color: disabled ? 'gray' : '#fff', ...styles.text }}>{title}</Text>
     </Pressable>
   )
 }
