@@ -1,7 +1,8 @@
+import { TextInput } from 'components'
 import { useFormik } from 'formik'
 import { useMemo, useState } from 'react'
 import { useIntl } from 'react-intl'
-import { Image, StyleSheet, TextInput, View } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 import * as yup from 'yup'
 
 const PLACEHOLDER_IMG =
@@ -55,22 +56,27 @@ export const AddPostForm = () => {
       <View style={styles.top}>
         <Image style={styles.image} source={{ uri: values.imageUrl ? values.imageUrl : PLACEHOLDER_IMG }} />
         <TextInput
-          style={[styles.textInput, {flex: 1}]}
-          placeholder="Describe your post..."
-          placeholderTextColor={'gray'}
-          multiline
-          value={values.caption}
-          onChangeText={handleChange('caption')}
-          onBlur={handleBlur('caption')}
-        />
-      </View>
-      <TextInput
-          style={styles.textInput}
+          style={[styles.textInput, {marginRight: 110}]}
           placeholder="Enter image URL..."
           placeholderTextColor={'gray'}
           value={values.imageUrl}
           onChangeText={handleChange('imageUrl')}
+          onBlur={handleBlur('imageUrl')}
+          error={errors.imageUrl}
+          touched={touched.imageUrl}
         />
+      </View>
+      <TextInput
+        style={styles.textInput}
+        placeholder="Describe your post..."
+        placeholderTextColor={'gray'}
+        multiline
+        value={values.caption}
+        onChangeText={handleChange('caption')}
+        onBlur={handleBlur('caption')}
+        error={errors.caption}
+        touched={touched.caption}
+      />
     </View>
   )
 }
