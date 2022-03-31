@@ -1,3 +1,6 @@
 export * from './ProfilePicture/ProfilePicture'
 export * from './IconButton/IconButton'
 export * from './Navbar/Navbar'
+export * from './SafeAreaContainer/SafeAreaContainer'
+export * from './TextInput/TextInput'
+export * from './Button/Button'
