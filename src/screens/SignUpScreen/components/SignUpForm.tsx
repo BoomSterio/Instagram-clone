@@ -1,28 +1,31 @@
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from 'config'
 import { Button, TextInput } from 'components'
-import { NavTab } from 'config'
+import { NavigationProps, NavTab } from 'config'
 import { useFormik } from 'formik'
 import { useMemo, useState } from 'react'
 import { useIntl } from 'react-intl'
-import { StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import * as yup from 'yup'
 
-interface LogInState {
-  login: string
+interface SignUpState {
+  email: string
+  username: string
   password: string
 }
 
-export const LogInForm = () => {
+export const SignUpForm = () => {
   const navigation = useNavigation<NavigationProps>()
   const intl = useIntl()
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      login: yup
+      email: yup
         .string()
         .email()
+        .required(intl.formatMessage({ id: 'messages.required' })),
+      username: yup
+        .string()
+        .min(2, intl.formatMessage({ id: 'messages.minLength' }, { length: 2 }))
         .required(intl.formatMessage({ id: 'messages.required' })),
       password: yup
         .string()
@@ -31,12 +34,13 @@ export const LogInForm = () => {
     })
   }, [intl])
 
-  const [initialValues] = useState<LogInState>({
-    login: '',
+  const [initialValues] = useState<SignUpState>({
+    email: '',
+    username: '',
     password: '',
   })
 
-  const { values, errors, touched, handleSubmit, handleBlur, handleChange, isValid } = useFormik<LogInState>({
+  const { values, errors, touched, handleSubmit, handleBlur, handleChange, isValid } = useFormik<SignUpState>({
     initialValues,
     validationSchema,
     validateOnMount: true,
@@ -48,7 +52,7 @@ export const LogInForm = () => {
   return (
     <View>
       <TextInput
-        containerStyle={styles.inputField(Boolean(errors.login && touched.login))}
+        containerStyle={styles.inputField(Boolean(errors.email && touched.email))}
         wrapperStyle={{ marginBottom: 10 }}
         placeholder="Phone number, username or email"
         placeholderTextColor={'#444'}
@@ -56,11 +60,23 @@ export const LogInForm = () => {
         autoFocus
         keyboardType="email-address"
         textContentType="emailAddress"
-        value={values.login}
-        onChangeText={handleChange('login')}
-        onBlur={handleBlur('login')}
-        error={errors.login}
-        touched={touched.login}
+        value={values.email}
+        onChangeText={handleChange('email')}
+        onBlur={handleBlur('email')}
+        error={errors.email}
+        touched={touched.email}
+      />
+      <TextInput
+        containerStyle={styles.inputField(Boolean(errors.username && touched.username))}
+        wrapperStyle={{ marginBottom: 10 }}
+        placeholder="Enter username"
+        placeholderTextColor={'#444'}
+        autoCapitalize="none"
+        value={values.username}
+        onChangeText={handleChange('username')}
+        onBlur={handleBlur('username')}
+        error={errors.username}
+        touched={touched.username}
       />
       <TextInput
         containerStyle={styles.inputField(Boolean(errors.password && touched.password))}
@@ -78,14 +94,11 @@ export const LogInForm = () => {
         error={errors.password}
         touched={touched.password}
       />
-      <View style={{ alignItems: 'flex-end', marginBottom: 30 }}>
-        <Text style={{ color: '#03a1fc' }}>Forgor password? 💀</Text>
-      </View>
-      <Button style={styles.button(isValid)} title="Log in" onPress={() => handleSubmit()} disabled={!isValid} />
-      <View style={styles.signUpContainer}>
-        <Text style={{ color: '#000' }}>Don't have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.push(NavTab.SignUp)}>
-          <Text style={{ color: '#03a1fc' }}>Sign Up</Text>
+      <Button style={styles.button(isValid)} title="Sign up" onPress={() => handleSubmit()} disabled={!isValid} />
+      <View style={styles.logInContainer}>
+        <Text style={{ color: '#000' }}>Already have an account? </Text>
+        <TouchableOpacity onPress={() => navigation.push(NavTab.LogIn)}>
+          <Text style={{ color: '#03a1fc' }}>Log In</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -103,8 +116,9 @@ const styles = StyleSheet.create<any>({
   }),
   button: (isValid: boolean) => ({
     backgroundColor: isValid ? '#03a1fc' : '#9ACAF7',
+    marginTop: 20,
   }),
-  signUpContainer: {
+  logInContainer: {
     flexDirection: 'row',
     marginTop: 40,
     width: '100%',
