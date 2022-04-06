@@ -23,7 +23,7 @@ export const SignedInStack = () => {
 export const SignedOutStack = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={NavTab.LogIn} screenOptions={screenOptions}>
+      <Stack.Navigator initialRouteName={NavTab.SignUp} screenOptions={screenOptions}>
         {signedOutRoutes.map((route: Route) => (
           <Stack.Screen key={route.name} name={route.name} component={route.component} />
         ))}
