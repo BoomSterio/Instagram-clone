@@ -27,12 +27,11 @@ export const SignUpForm = () => {
 
       const response = await auth.createUserWithEmailAndPassword(email, password)
 
-      const pfp = await getRandomPicture()
       db.collection('users').add({
         user_id: response.user?.uid,
         username,
         email,
-        profile_picture: pfp
+        profile_picture: await getRandomPicture()
       })
     } catch (err) {
       Alert.alert('Auth error 💀', getErrorMessage(err))
