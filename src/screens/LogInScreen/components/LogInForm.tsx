@@ -8,30 +8,47 @@ import { Alert, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import * as yup from 'yup'
 import { auth } from '../../../../firebase'
+import { getErrorMessage } from 'utils'
 
 interface LogInState {
-  login: string
+  email: string
   password: string
 }
 
 export const LogInForm = () => {
+  const [isAuthorizing, setIsAuthorizing] = useState(false)
+
   const navigation = useNavigation<NavigationProps>()
   const intl = useIntl()
 
   const handleLogin = async (email: string, password: string) => {
     try {
-      await auth.signInWithEmailAndPassword(email, password)
-      console.log('Successfully logged in!!!')
-    } catch (err: any) {
-      const message = err instanceof Error ? err.message : String(err)
-
-      Alert.alert(err.message)
+      setIsAuthorizing(true)
+      const response = await auth.signInWithEmailAndPassword(email, password)
+      console.log('Successfully logged in!!!', response)
+    } catch (err) {
+      Alert.alert(
+        'Auth error 💀',
+        getErrorMessage(err) + '\n\nWhat would you like to do next?',
+        [
+          {
+            text: 'Try again',
+            style: 'cancel'
+          },
+          {
+            text: 'Sign Up',
+            onPress: () => navigation.push(NavTab.SignUp)
+          },
+        ]
+      )
+    } finally {
+      setIsAuthorizing(false)
     }
   }
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
-      login: yup
+      email: yup
         .string()
         .email()
         .required(intl.formatMessage({ id: 'messages.required' })),
@@ -43,7 +60,7 @@ export const LogInForm = () => {
   }, [intl])
 
   const [initialValues] = useState<LogInState>({
-    login: '',
+    email: '',
     password: '',
   })
 
@@ -52,14 +69,14 @@ export const LogInForm = () => {
     validationSchema,
     validateOnMount: true,
     onSubmit: async (v) => {
-      console.log(v)
+      handleLogin(v.email, v.password)
     },
   })
 
   return (
     <View>
       <TextInput
-        containerStyle={styles.inputField(Boolean(errors.login && touched.login))}
+        containerStyle={styles.inputField(Boolean(errors.email && touched.email))}
         wrapperStyle={{ marginBottom: 10 }}
         placeholder="Phone number, username or email"
         placeholderTextColor={'#444'}
@@ -67,11 +84,11 @@ export const LogInForm = () => {
         autoFocus
         keyboardType="email-address"
         textContentType="emailAddress"
-        value={values.login}
-        onChangeText={handleChange('login')}
-        onBlur={handleBlur('login')}
-        error={errors.login}
-        touched={touched.login}
+        value={values.email}
+        onChangeText={handleChange('email')}
+        onBlur={handleBlur('email')}
+        error={errors.email}
+        touched={touched.email}
       />
       <TextInput
         containerStyle={styles.inputField(Boolean(errors.password && touched.password))}
@@ -92,7 +109,12 @@ export const LogInForm = () => {
       <View style={{ alignItems: 'flex-end', marginBottom: 30 }}>
         <Text style={{ color: '#03a1fc' }}>Forgor password? 💀</Text>
       </View>
-      <Button style={styles.button(isValid)} title="Log in" onPress={() => handleSubmit()} disabled={!isValid} />
+      <Button
+        style={styles.button(isValid)}
+        title="Log in"
+        onPress={() => handleSubmit()}
+        disabled={!isValid || isAuthorizing}
+      />
       <View style={styles.signUpContainer}>
         <Text style={{ color: '#000' }}>Don't have an account? </Text>
         <TouchableOpacity onPress={() => navigation.push(NavTab.SignUp)}>

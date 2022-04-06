@@ -4,8 +4,10 @@ import { NavigationProps, NavTab } from 'config'
 import { useFormik } from 'formik'
 import { useMemo, useState } from 'react'
 import { useIntl } from 'react-intl'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { getErrorMessage, getRandomPicture } from 'utils'
 import * as yup from 'yup'
+import { auth, db } from '../../../../firebase'
 
 interface SignUpState {
   email: string
@@ -14,8 +16,30 @@ interface SignUpState {
 }
 
 export const SignUpForm = () => {
+  const [isAuthorizing, setIsAuthorizing] = useState(false)
+
   const navigation = useNavigation<NavigationProps>()
   const intl = useIntl()
+
+  const handleSignin = async (username: string, email: string, password: string) => {
+    try {
+      setIsAuthorizing(true)
+
+      const response = await auth.createUserWithEmailAndPassword(email, password)
+
+      const pfp = await getRandomPicture()
+      db.collection('users').add({
+        user_id: response.user?.uid,
+        username,
+        email,
+        profile_picture: pfp
+      })
+    } catch (err) {
+      Alert.alert('Auth error 💀', getErrorMessage(err))
+    } finally {
+      setIsAuthorizing(false)
+    }
+  }
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
@@ -45,7 +69,7 @@ export const SignUpForm = () => {
     validationSchema,
     validateOnMount: true,
     onSubmit: async (v) => {
-      console.log(v)
+      handleSignin(v.username, v.email, v.password)
     },
   })
 
@@ -54,7 +78,7 @@ export const SignUpForm = () => {
       <TextInput
         containerStyle={styles.inputField(Boolean(errors.email && touched.email))}
         wrapperStyle={{ marginBottom: 10 }}
-        placeholder="Phone number, username or email"
+        placeholder="Email"
         placeholderTextColor={'#444'}
         autoCapitalize="none"
         autoFocus
@@ -69,7 +93,7 @@ export const SignUpForm = () => {
       <TextInput
         containerStyle={styles.inputField(Boolean(errors.username && touched.username))}
         wrapperStyle={{ marginBottom: 10 }}
-        placeholder="Enter username"
+        placeholder="Username"
         placeholderTextColor={'#444'}
         autoCapitalize="none"
         value={values.username}
@@ -94,7 +118,12 @@ export const SignUpForm = () => {
         error={errors.password}
         touched={touched.password}
       />
-      <Button style={styles.button(isValid)} title="Sign up" onPress={() => handleSubmit()} disabled={!isValid} />
+      <Button
+        style={styles.button(isValid)}
+        title="Sign up"
+        onPress={() => handleSubmit()}
+        disabled={!isValid || isAuthorizing}
+      />
       <View style={styles.logInContainer}>
         <Text style={{ color: '#000' }}>Already have an account? </Text>
         <TouchableOpacity onPress={() => navigation.push(NavTab.LogIn)}>
