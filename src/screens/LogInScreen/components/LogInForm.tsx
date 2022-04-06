@@ -1,13 +1,13 @@
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from 'config'
+import { NavigationProps, NavTab } from 'config'
 import { Button, TextInput } from 'components'
-import { NavTab } from 'config'
 import { useFormik } from 'formik'
 import { useMemo, useState } from 'react'
 import { useIntl } from 'react-intl'
-import { StyleSheet, Text, View } from 'react-native'
+import { Alert, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import * as yup from 'yup'
+import { auth } from '../../../../firebase'
 
 interface LogInState {
   login: string
@@ -17,6 +17,17 @@ interface LogInState {
 export const LogInForm = () => {
   const navigation = useNavigation<NavigationProps>()
   const intl = useIntl()
+
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      await auth.signInWithEmailAndPassword(email, password)
+      console.log('Successfully logged in!!!')
+    } catch (err: any) {
+      const message = err instanceof Error ? err.message : String(err)
+
+      Alert.alert(err.message)
+    }
+  }
 
   const validationSchema = useMemo(() => {
     return yup.object().shape({
