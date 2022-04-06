@@ -1,15 +1,26 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { HeaderLogo } from 'assets'
 import { IconButton } from 'components'
 import { useNavigation } from '@react-navigation/native'
 import { NavigationProps, NavTab } from 'config'
+import { getErrorMessage } from 'utils'
+import { auth } from '../../../../firebase'
+
+const handleSignOut = async () => {
+  try {
+    auth.signOut()
+    console.log('Signed out successfully!')
+  } catch (error) {
+    Alert.alert('Could not sign out', getErrorMessage(error))
+  }
+}
 
 export const Header = () => {
   const navigation = useNavigation<NavigationProps>()
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleSignOut}>
         <Image style={styles.logo} source={HeaderLogo} />
       </TouchableOpacity>
       <View style={styles.iconsContainer}>
