@@ -25,7 +25,6 @@ export const LogInForm = () => {
     try {
       setIsAuthorizing(true)
       const response = await auth.signInWithEmailAndPassword(email, password)
-      console.log('Successfully logged in!!!', response)
     } catch (err) {
       Alert.alert(
         'Auth error 💀',
