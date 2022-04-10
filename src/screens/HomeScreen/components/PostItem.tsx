@@ -1,5 +1,6 @@
 import { postFooterIcons } from 'assets'
 import { IconButton, ProfilePicture } from 'components'
+import moment from 'moment'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
 import { Comment, Post } from 'types'
@@ -19,6 +20,7 @@ interface PostFooterProps {
   username: string
   caption?: string
   commentsCount: number
+  createdAt: Date
 }
 
 interface PostCommentProps {
@@ -50,7 +52,7 @@ const PostImage = ({ imageUrl }: PostImageProps) => (
   </View>
 )
 
-const PostFooter = ({ likesCount, topComments = [], username, caption, commentsCount }: PostFooterProps) => {
+const PostFooter = ({ likesCount, topComments = [], username, caption, commentsCount, createdAt }: PostFooterProps) => {
   return (
     <View style={styles.postFooter}>
       <View style={styles.postFooterButtons}>
@@ -66,11 +68,11 @@ const PostFooter = ({ likesCount, topComments = [], username, caption, commentsC
 
       <View style={{ marginLeft: 10 }}>
         {likesCount != null ? (
-          <Text style={{ color: 'white', fontWeight: '700', marginTop: 4 }}>{likesCount} likes</Text>
+          <Text style={{ color: 'white', fontWeight: '700', marginVertical: 4 }}>{likesCount} likes</Text>
         ) : null}
         <PostComment username={username} caption={caption} />
         {commentsCount && commentsCount > 0 ? (
-          <TouchableOpacity>
+          <TouchableOpacity style={{ marginTop: 4 }}>
             <Text style={{ color: 'grey' }}>
               View {commentsCount > 1 ? `all ${commentsCount} comments` : `${commentsCount} comment`}
             </Text>
@@ -81,20 +83,21 @@ const PostFooter = ({ likesCount, topComments = [], username, caption, commentsC
               <PostComment key={i} caption={message} username={commentAuthor} />
             ))
           : null}
+        <Text style={styles.timeAgo}>{moment(createdAt).fromNow()}</Text>
       </View>
     </View>
   )
 }
 
 const PostComment = ({ username, caption }: PostCommentProps) => (
-  <Text style={{ marginTop: 4 }}>
+  <Text>
     <Text style={{ color: 'white', fontWeight: '700' }}>{username} </Text>
     <Text style={{ color: 'white' }}>{caption}</Text>
   </Text>
 )
 
 export const PostItem = ({
-  post: { username, profileImageUrl, imageUrl, caption, likes, comments, commentsCount },
+  post: { username, profileImageUrl, imageUrl, caption, likes, comments, commentsCount, createdAt },
 }: PostItemProps) => {
   return (
     <View>
@@ -106,6 +109,7 @@ export const PostItem = ({
         commentsCount={commentsCount}
         username={username}
         caption={caption}
+        createdAt={createdAt}
       />
     </View>
   )
@@ -151,5 +155,10 @@ const styles = StyleSheet.create({
     width: 26,
     height: 26,
     marginHorizontal: 10,
+  },
+  timeAgo: {
+    color: 'grey',
+    fontSize: 9,
+    marginTop: 4
   },
 })
