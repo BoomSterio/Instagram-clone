@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
-import { Post } from "types"
-import { db } from "../../firebase"
+import { useEffect, useState } from 'react'
+import { Post } from 'types'
+import { db } from 'config'
 
 export const usePosts = () => {
   const [data, setData] = useState<Post[]>([])

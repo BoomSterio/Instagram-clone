@@ -78,10 +78,9 @@ const PostFooter = ({ likesCount, topComments = [], username, caption, commentsC
         ) : null}
         {topComments?.length > 0
           ? topComments?.map(({ message, username: commentAuthor }, i) => (
-            <PostComment key={i} caption={message} username={commentAuthor} />
-          ))
-          : null
-        }
+              <PostComment key={i} caption={message} username={commentAuthor} />
+            ))
+          : null}
       </View>
     </View>
   )

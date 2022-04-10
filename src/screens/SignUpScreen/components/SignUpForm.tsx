@@ -1,13 +1,12 @@
 import { useNavigation } from '@react-navigation/native'
 import { Button, TextInput } from 'components'
-import { NavigationProps, NavTab } from 'config'
+import { NavigationProps, NavTab, auth, db } from 'config'
 import { useFormik } from 'formik'
 import { useMemo, useState } from 'react'
 import { useIntl } from 'react-intl'
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { getErrorMessage, getRandomPicture } from 'utils'
 import * as yup from 'yup'
-import { auth, db } from '../../../../firebase'
 
 interface SignUpState {
   email: string
@@ -33,7 +32,7 @@ export const SignUpForm = () => {
           userId: response.user?.uid,
           username,
           email,
-          profilePicture: await getRandomPicture()
+          profilePicture: await getRandomPicture(),
         })
     } catch (err) {
       Alert.alert('Auth error 💀', getErrorMessage(err))

@@ -2,9 +2,8 @@ import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-na
 import { HeaderLogo } from 'assets'
 import { IconButton } from 'components'
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps, NavTab } from 'config'
+import { NavigationProps, NavTab, auth } from 'config'
 import { getErrorMessage } from 'utils'
-import { auth } from '../../../../firebase'
 
 const handleSignOut = async () => {
   try {

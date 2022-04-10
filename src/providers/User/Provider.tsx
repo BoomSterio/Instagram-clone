@@ -1,7 +1,7 @@
 import React, { useState, FunctionComponent, useEffect } from 'react'
 
 import Context from './Context'
-import { auth, db } from '../../../firebase'
+import { auth, db } from 'config'
 import { User, UserAuth } from 'types'
 
 export interface UserContextType {
@@ -14,7 +14,6 @@ const Provider: FunctionComponent = ({ children }) => {
   const [userInfo, setUserInfo] = useState<User | null>(null)
 
   const userHandler = (user: UserAuth) => {
-    console.log(!!user)
     if (user) {
       setUserAuth(user)
       return
