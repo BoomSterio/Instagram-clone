@@ -4,15 +4,18 @@ import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, View } from 'react-native'
 import LocaleProvider from './src/providers/Locale'
 import { Auth } from 'providers'
+import UserProvider from 'providers/User'
 
 export default function App() {
   return (
-    <LocaleProvider>
-      <View style={styles.container}>
-        <StatusBar style="light" />
-        <Auth />
-      </View>
-    </LocaleProvider>
+    <UserProvider>
+      <LocaleProvider>
+        <View style={styles.container}>
+          <StatusBar style="light" />
+          <Auth />
+        </View>
+      </LocaleProvider>
+    </UserProvider>
   )
 }
 

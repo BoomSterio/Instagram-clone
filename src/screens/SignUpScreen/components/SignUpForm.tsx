@@ -28,7 +28,7 @@ export const SignUpForm = () => {
       const response = await auth.createUserWithEmailAndPassword(email, password)
 
       db.collection('users')
-        .doc(email)
+        .doc(response.user?.uid)
         .set({
           user_id: response.user?.uid,
           username,

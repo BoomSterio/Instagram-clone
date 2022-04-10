@@ -9,7 +9,7 @@ export const Posts = () => {
   const [data, setData] = useState([])
 
   useEffect(() => {
-    db.collectionGroup('posts').onSnapshot(snapshot => {
+    return db.collectionGroup('posts').onSnapshot(snapshot => {
       console.log(snapshot.docs.map(doc => doc.data()))
     })
   }, [])
