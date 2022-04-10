@@ -16,4 +16,5 @@ export interface Post {
   comments?: Comment[]
   commentsCount: number
   likesByUsers?: string[]
+  createdAt: Date
 }

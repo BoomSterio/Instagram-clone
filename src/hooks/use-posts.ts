@@ -8,8 +8,19 @@ export const usePosts = () => {
   useEffect(() => {
     return db.collectionGroup('posts').onSnapshot((snapshot) => {
       const posts: Post[] = snapshot.docs.map((doc) => {
-        const { userId, caption, imageUrl, username, likes, likesByUsers, comments, commentsCount, profileImageUrl } =
-          doc.data()
+        const {
+          userId,
+          caption,
+          imageUrl,
+          username,
+          likes,
+          likesByUsers,
+          comments,
+          commentsCount,
+          profileImageUrl,
+          createdAt,
+        } = doc.data()
+
         return {
           id: doc.id,
           userId,
@@ -21,6 +32,7 @@ export const usePosts = () => {
           comments,
           commentsCount,
           profileImageUrl,
+          createdAt,
         }
       })
       setData(posts)
