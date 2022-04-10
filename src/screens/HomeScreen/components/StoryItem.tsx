@@ -11,7 +11,7 @@ interface StoryItemProps {
 export const StoryItem = ({ user }: StoryItemProps) => {
   return (
     <View key={user.id} style={styles.userStory}>
-      <ProfilePicture imageUrl={user.image} diameter={STORY_WIDTH} />
+      <ProfilePicture imageUrl={user.profilePicture} diameter={STORY_WIDTH} />
       <Text style={styles.userName} numberOfLines={1} ellipsizeMode="tail">
         {user.username}
       </Text>

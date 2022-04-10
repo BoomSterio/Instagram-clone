@@ -15,7 +15,7 @@ interface PostImageProps {
 
 interface PostFooterProps {
   likesCount?: number
-  topComments: Comment[]
+  topComments?: Comment[]
   username: string
   caption?: string
   commentsCount: number
@@ -50,7 +50,7 @@ const PostImage = ({ imageUrl }: PostImageProps) => (
   </View>
 )
 
-const PostFooter = ({ likesCount, topComments, username, caption, commentsCount }: PostFooterProps) => {
+const PostFooter = ({ likesCount, topComments = [], username, caption, commentsCount }: PostFooterProps) => {
   return (
     <View style={styles.postFooter}>
       <View style={styles.postFooterButtons}>
@@ -65,22 +65,22 @@ const PostFooter = ({ likesCount, topComments, username, caption, commentsCount 
       </View>
 
       <View style={{ marginLeft: 10 }}>
-        {likesCount && <Text style={{ color: 'white', fontWeight: '700', marginTop: 4 }}>{likesCount} likes</Text>}
+        {likesCount != null ? (
+          <Text style={{ color: 'white', fontWeight: '700', marginTop: 4 }}>{likesCount} likes</Text>
+        ) : null}
         <PostComment username={username} caption={caption} />
-        {!!commentsCount && (
+        {commentsCount && commentsCount > 0 ? (
           <TouchableOpacity>
             <Text style={{ color: 'grey' }}>
               View {commentsCount > 1 ? `all ${commentsCount} comments` : `${commentsCount} comment`}
             </Text>
           </TouchableOpacity>
-        )}
-        {topComments?.length > 0 && (
-          <>
-            {topComments?.map(({ message, username: commentAuthor, id }) => (
-              <PostComment key={id} caption={message} username={commentAuthor} />
-            ))}
-          </>
-        )}
+        ) : null}
+        {topComments?.length > 0
+          ? topComments?.map(({ message, username: commentAuthor }, i) => (
+              <PostComment key={i} caption={message} username={commentAuthor} />
+            ))
+          : null}
       </View>
     </View>
   )

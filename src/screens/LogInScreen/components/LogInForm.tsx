@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps, NavTab } from 'config'
+import { NavigationProps, NavTab, auth } from 'config'
 import { Button, TextInput } from 'components'
 import { useFormik } from 'formik'
 import { useMemo, useState } from 'react'
@@ -7,7 +7,6 @@ import { useIntl } from 'react-intl'
 import { Alert, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import * as yup from 'yup'
-import { auth } from '../../../../firebase'
 import { getErrorMessage } from 'utils'
 
 interface LogInState {
@@ -26,20 +25,16 @@ export const LogInForm = () => {
       setIsAuthorizing(true)
       const response = await auth.signInWithEmailAndPassword(email, password)
     } catch (err) {
-      Alert.alert(
-        'Auth error 💀',
-        getErrorMessage(err) + '\n\nWhat would you like to do next?',
-        [
-          {
-            text: 'Try again',
-            style: 'cancel'
-          },
-          {
-            text: 'Sign Up',
-            onPress: () => navigation.push(NavTab.SignUp)
-          },
-        ]
-      )
+      Alert.alert('Auth error 💀', getErrorMessage(err) + '\n\nWhat would you like to do next?', [
+        {
+          text: 'Try again',
+          style: 'cancel',
+        },
+        {
+          text: 'Sign Up',
+          onPress: () => navigation.push(NavTab.SignUp),
+        },
+      ])
     } finally {
       setIsAuthorizing(false)
     }
@@ -83,6 +78,7 @@ export const LogInForm = () => {
         autoFocus
         keyboardType="email-address"
         textContentType="emailAddress"
+        autoCompleteType="email"
         value={values.email}
         onChangeText={handleChange('email')}
         onBlur={handleBlur('email')}

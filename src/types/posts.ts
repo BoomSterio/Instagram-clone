@@ -13,6 +13,7 @@ export interface Post {
   profileImageUrl: string
   caption?: string
   likes?: number
-  comments: Comment[]
+  comments?: Comment[]
   commentsCount: number
+  likesByUsers?: string[]
 }
