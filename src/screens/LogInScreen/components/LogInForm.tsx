@@ -83,6 +83,7 @@ export const LogInForm = () => {
         autoFocus
         keyboardType="email-address"
         textContentType="emailAddress"
+        autoCompleteType='email'
         value={values.email}
         onChangeText={handleChange('email')}
         onBlur={handleBlur('email')}

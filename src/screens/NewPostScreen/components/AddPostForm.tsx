@@ -1,6 +1,6 @@
 import { Button, TextInput } from 'components'
 import { useFormik } from 'formik'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useIntl } from 'react-intl'
 import { Image, StyleSheet, View } from 'react-native'
 import * as yup from 'yup'
@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native'
 import { NavigationProps } from 'config'
 import validUrl from 'valid-url'
 import { useUser } from 'providers'
+import { db } from '../../../../firebase'
 
 const PLACEHOLDER_IMG =
   'https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc='
@@ -18,9 +19,26 @@ interface AddPostState {
 }
 
 export const AddPostForm = () => {
-  const currentUser = useUser()
+  const {userAuth, userInfo} = useUser()
 
-  
+  const uploadPost = (v: AddPostState) => {
+    const {imageUrl, caption} = v
+    db
+      .collection('users')
+      .doc(userAuth?.uid)
+      .collection('posts')
+      .add({
+        userId: userAuth?.uid,
+        imageUrl,
+        caption,
+        profileImageUrl: userInfo?.profilePicture,
+        likes: 0,
+        commentsCount: 0,
+        likesByUsers: [],
+        username: userInfo?.username
+      })
+      .then(() => navigation.goBack())
+  }
 
   const navigation = useNavigation<NavigationProps>()
   const intl = useIntl()
@@ -48,8 +66,7 @@ export const AddPostForm = () => {
     validationSchema,
     validateOnMount: true,
     onSubmit: async (v) => {
-      console.log(v)
-      navigation.goBack()
+      uploadPost(v)
     },
   })
 

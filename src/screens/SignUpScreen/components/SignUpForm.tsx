@@ -30,10 +30,10 @@ export const SignUpForm = () => {
       db.collection('users')
         .doc(response.user?.uid)
         .set({
-          user_id: response.user?.uid,
+          userId: response.user?.uid,
           username,
           email,
-          profile_picture: await getRandomPicture()
+          profilePicture: await getRandomPicture()
         })
     } catch (err) {
       Alert.alert('Auth error 💀', getErrorMessage(err))
@@ -97,6 +97,8 @@ export const SignUpForm = () => {
         placeholder="Username"
         placeholderTextColor={'#444'}
         autoCapitalize="none"
+        autoCompleteType={'username'}
+        autoCorrect={false}
         value={values.username}
         onChangeText={handleChange('username')}
         onBlur={handleBlur('username')}

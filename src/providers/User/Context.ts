@@ -1,8 +1,11 @@
 import React from 'react';
-import { User } from './Provider';
+import { UserContextType } from './Provider';
 
-const defaultValue: User = null;
+const defaultValue: UserContextType = {
+  userAuth: null,
+  userInfo: null
+};
 
-export const Context = React.createContext<User>(defaultValue);
+export const Context = React.createContext<UserContextType>(defaultValue);
 
 export default Context;

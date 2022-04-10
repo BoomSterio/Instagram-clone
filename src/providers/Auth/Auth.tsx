@@ -1,8 +1,8 @@
 import { SignedInStack, SignedOutStack } from 'providers/Navigation/Navigation'
-import { useUser } from 'providers'
+import { useUser } from '../User'
 
 export const Auth = () => {
-  const currentUser = useUser()
+  const {userAuth} = useUser()
 
-  return currentUser ? <SignedInStack /> : <SignedOutStack />
+  return userAuth ? <SignedInStack /> : <SignedOutStack />
 }

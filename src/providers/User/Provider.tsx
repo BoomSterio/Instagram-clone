@@ -1,27 +1,55 @@
-import React, { useState, FunctionComponent, useEffect } from 'react';
+import React, { useState, FunctionComponent, useEffect } from 'react'
 
-import Context from './Context';
-import { auth } from '../../../firebase';
-import firebase from 'firebase/compat/app'
+import Context from './Context'
+import { auth, db } from '../../../firebase'
+import { User, UserAuth } from 'types'
 
-export type User = firebase.User | null
+export interface UserContextType {
+  userAuth: UserAuth
+  userInfo: User | null
+}
 
 const Provider: FunctionComponent = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<User>(null)
+  const [userAuth, setUserAuth] = useState<UserAuth>(null)
+  const [userInfo, setUserInfo] = useState<User | null>(null)
 
-  const userHandler = (user: User) => {
+  const userHandler = (user: UserAuth) => {
+    console.log(!!user)
     if (user) {
-      setCurrentUser(user)
+      setUserAuth(user)
       return
     }
-    setCurrentUser(null)
+    setUserAuth(null)
   }
 
-  useEffect(() =>
-    auth.onAuthStateChanged((user: User) => userHandler(user))
-  , [])
+  useEffect(() => {
+    auth.onAuthStateChanged((user: UserAuth) => userHandler(user))
+  }, [])
 
-  return <Context.Provider value={currentUser}>{children}</Context.Provider>;
-};
+  useEffect(() => {
+    if (!userAuth) {
+      return
+    }
 
-export default Provider;
+    return db
+      .collection('users')
+      .doc(userAuth.uid)
+      .onSnapshot((snapshot) => {
+        const data = snapshot.data()
+        if (!data) {
+          return
+        }
+
+        const userData: User = {
+          id: data.userId,
+          username: data.username,
+          profilePicture: data.profilePicture,
+        }
+        setUserInfo(userData)
+      })
+  }, [userAuth])
+
+  return <Context.Provider value={{ userAuth, userInfo }}>{children}</Context.Provider>
+}
+
+export default Provider
