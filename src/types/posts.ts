@@ -5,8 +5,7 @@ export interface Comment {
   message: string
 }
 
-export interface Post {
-  id: string
+export interface PostData {
   userId: string
   username: string
   imageUrl: string
@@ -17,4 +16,8 @@ export interface Post {
   commentsCount: number
   likesByUsers?: string[]
   createdAt: Date
+}
+
+export interface Post extends PostData {
+  id: string
 }

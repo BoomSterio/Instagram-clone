@@ -1,9 +1,13 @@
 import { postFooterIcons } from 'assets'
 import { IconButton, ProfilePicture } from 'components'
+import { db } from 'config'
 import moment from 'moment'
+import { useUser } from 'providers'
+import { useMemo } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
 import { Comment, Post } from 'types'
+import firebase from 'firebase/compat/app'
 
 interface PostHeaderProps {
   username: string
@@ -15,7 +19,9 @@ interface PostImageProps {
 }
 
 interface PostFooterProps {
-  likesCount?: number
+  id: string
+  userId: string
+  likesByUsers?: string[]
   topComments?: Comment[]
   username: string
   caption?: string
@@ -52,12 +58,43 @@ const PostImage = ({ imageUrl }: PostImageProps) => (
   </View>
 )
 
-const PostFooter = ({ likesCount, topComments = [], username, caption, commentsCount, createdAt }: PostFooterProps) => {
+const PostFooter = ({
+  id,
+  userId,
+  likesByUsers,
+  topComments = [],
+  username,
+  caption,
+  commentsCount,
+  createdAt,
+}: PostFooterProps) => {
+  const { userInfo } = useUser()
+
+  const isLiked = useMemo(() => likesByUsers?.includes(userInfo?.id as string), [likesByUsers])
+
+  const handleLike = () => {
+    db.collection('users')
+      .doc(userId)
+      .collection('posts')
+      .doc(id)
+      .update({
+        likesByUsers: !isLiked
+          ? firebase.firestore.FieldValue.arrayUnion(userInfo?.id)
+          : firebase.firestore.FieldValue.arrayRemove(userInfo?.id),
+      })
+      .then(() => console.log('Successfully changed like status'))
+      .catch((err) => console.log('Like error' + err))
+  }
+
   return (
     <View style={styles.postFooter}>
       <View style={styles.postFooterButtons}>
         <View style={styles.footerLeftButtons}>
-          <IconButton icon={postFooterIcons.like} imgStyle={styles.footerIcon} />
+          <IconButton
+            icon={isLiked ? postFooterIcons.filledLike : postFooterIcons.like}
+            imgStyle={styles.footerIcon}
+            onPress={handleLike}
+          />
           <IconButton icon={postFooterIcons.comment} imgStyle={styles.footerIcon} />
           <IconButton icon={postFooterIcons.share} imgStyle={styles.footerIcon} />
         </View>
@@ -67,8 +104,10 @@ const PostFooter = ({ likesCount, topComments = [], username, caption, commentsC
       </View>
 
       <View style={{ marginLeft: 10 }}>
-        {likesCount != null ? (
-          <Text style={{ color: 'white', fontWeight: '700', marginVertical: 4 }}>{likesCount} likes</Text>
+        {likesByUsers?.length != null ? (
+          <Text style={{ color: 'white', fontWeight: '700', marginVertical: 4 }}>
+            {likesByUsers.length.toLocaleString('en')} likes
+          </Text>
         ) : null}
         <PostComment username={username} caption={caption} />
         {commentsCount && commentsCount > 0 ? (
@@ -97,14 +136,16 @@ const PostComment = ({ username, caption }: PostCommentProps) => (
 )
 
 export const PostItem = ({
-  post: { username, profileImageUrl, imageUrl, caption, likes, comments, commentsCount, createdAt },
+  post: { id, username, userId, profileImageUrl, imageUrl, caption, likesByUsers, comments, commentsCount, createdAt },
 }: PostItemProps) => {
   return (
     <View>
       <PostHeader username={username} profileImageUrl={profileImageUrl} />
       <PostImage imageUrl={imageUrl} />
       <PostFooter
-        likesCount={likes}
+        id={id}
+        userId={userId}
+        likesByUsers={likesByUsers}
         topComments={comments}
         commentsCount={commentsCount}
         username={username}
@@ -159,6 +200,6 @@ const styles = StyleSheet.create({
   timeAgo: {
     color: 'grey',
     fontSize: 9,
-    marginTop: 4
+    marginTop: 4,
   },
 })
