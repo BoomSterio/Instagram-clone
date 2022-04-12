@@ -9,7 +9,7 @@ export interface PostData {
   userId: string
   username: string
   imageUrl: string
-  profileImageUrl: string
+  profileImageUrl?: string
   caption?: string
   likes?: number
   comments?: Comment[]

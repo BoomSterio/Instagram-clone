@@ -1,17 +1,18 @@
 import { postFooterIcons } from 'assets'
-import { IconButton, ProfilePicture } from 'components'
+import { IconButton, ProfilePicture, TextInput } from 'components'
 import { db } from 'config'
 import moment from 'moment'
 import { useUser } from 'providers'
 import { useMemo } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
 import { Comment, Post } from 'types'
 import firebase from 'firebase/compat/app'
+import { getErrorMessage } from 'utils'
 
 interface PostHeaderProps {
   username: string
-  profileImageUrl: string
+  profileImageUrl?: string
 }
 
 interface PostImageProps {
@@ -27,11 +28,18 @@ interface PostFooterProps {
   caption?: string
   commentsCount: number
   createdAt: Date
+  profileImageUrl?: string
 }
 
 interface PostCommentProps {
   username: string
   caption?: string
+}
+
+interface PostCommentFieldProps {
+  postId: string
+  userId: string
+  profileImageUrl?: string
 }
 
 interface PostItemProps {
@@ -67,6 +75,7 @@ const PostFooter = ({
   caption,
   commentsCount,
   createdAt,
+  profileImageUrl,
 }: PostFooterProps) => {
   const { userInfo } = useUser()
 
@@ -83,7 +92,7 @@ const PostFooter = ({
           : firebase.firestore.FieldValue.arrayRemove(userInfo?.id),
       })
       .then(() => console.log('Successfully changed like status'))
-      .catch((err) => console.log('Like error' + err))
+      .catch((err) => Alert.alert('Could not change like status', getErrorMessage(err)))
   }
 
   return (
@@ -122,8 +131,18 @@ const PostFooter = ({
               <PostComment key={i} caption={message} username={commentAuthor} />
             ))
           : null}
+        <PostCommentField postId={id} userId={userId} profileImageUrl={profileImageUrl} />
         <Text style={styles.timeAgo}>{moment(createdAt).fromNow()}</Text>
       </View>
+    </View>
+  )
+}
+
+const PostCommentField = ({ postId, userId, profileImageUrl }: PostCommentFieldProps) => {
+  return (
+    <View style={styles.commentField}>
+      <ProfilePicture hideGradient diameter={32} imageUrl={profileImageUrl} />
+      <TextInput placeholder="Add a comment..." placeholderTextColor={'grey'} containerStyle={{ paddingVertical: 0 }} />
     </View>
   )
 }
@@ -145,6 +164,7 @@ export const PostItem = ({
       <PostFooter
         id={id}
         userId={userId}
+        profileImageUrl={profileImageUrl}
         likesByUsers={likesByUsers}
         topComments={comments}
         commentsCount={commentsCount}
@@ -196,6 +216,12 @@ const styles = StyleSheet.create({
     width: 26,
     height: 26,
     marginHorizontal: 10,
+  },
+  commentField: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginTop: 4,
   },
   timeAgo: {
     color: 'grey',
