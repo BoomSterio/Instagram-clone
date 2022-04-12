@@ -98,6 +98,7 @@ export const AddPostForm = () => {
         onBlur={handleBlur('caption')}
         error={errors.caption}
         touched={touched.caption}
+        maxLength={1000}
       />
       <Button style={styles.button} title="Share" onPress={() => handleSubmit()} disabled={!isValid} />
     </View>

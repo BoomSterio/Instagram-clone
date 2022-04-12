@@ -3,7 +3,7 @@ import { IconButton, ProfilePicture, TextInput } from 'components'
 import { db } from 'config'
 import moment from 'moment'
 import { useUser } from 'providers'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
 import { Comment, Post } from 'types'
@@ -40,6 +40,7 @@ interface PostCommentFieldProps {
   postId: string
   userId: string
   profileImageUrl?: string
+  commentAuthor?: string
 }
 
 interface PostItemProps {
@@ -131,18 +132,60 @@ const PostFooter = ({
               <PostComment key={i} caption={message} username={commentAuthor} />
             ))
           : null}
-        <PostCommentField postId={id} userId={userId} profileImageUrl={profileImageUrl} />
+        <PostCommentField
+          postId={id}
+          userId={userId}
+          profileImageUrl={profileImageUrl}
+          commentAuthor={userInfo?.username}
+        />
         <Text style={styles.timeAgo}>{moment(createdAt).fromNow()}</Text>
       </View>
     </View>
   )
 }
 
-const PostCommentField = ({ postId, userId, profileImageUrl }: PostCommentFieldProps) => {
+const PostCommentField = ({ postId, userId, profileImageUrl, commentAuthor }: PostCommentFieldProps) => {
+  const [message, setMessage] = useState('')
+
+  const handleComment = () => {
+    const comment: Comment = {
+      userId,
+      message,
+      username: commentAuthor || userId,
+      likesByUsers: [],
+    }
+
+    db.collection('users')
+      .doc(userId)
+      .collection('posts')
+      .doc(postId)
+      .update({
+        comments: firebase.firestore.FieldValue.arrayUnion(comment),
+      })
+      .then(() => {
+        console.log('Comment was sent')
+        setMessage('')
+      })
+      .catch((err) => Alert.alert('Could not sent comment', getErrorMessage(err)))
+  }
+
   return (
     <View style={styles.commentField}>
       <ProfilePicture hideGradient diameter={32} imageUrl={profileImageUrl} />
-      <TextInput placeholder="Add a comment..." placeholderTextColor={'grey'} containerStyle={{ paddingVertical: 0 }} />
+      <TextInput
+        value={message}
+        onChangeText={setMessage}
+        onSubmitEditing={handleComment}
+        placeholder="Add a comment..."
+        placeholderTextColor={'grey'}
+        keyboardType="default"
+        returnKeyType="done"
+        blurOnSubmit
+        multiline
+        maxLength={150}
+        style={{ color: 'white', alignSelf: 'stretch' }}
+        containerStyle={{ paddingVertical: 0 }}
+      />
     </View>
   )
 }
@@ -218,6 +261,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   commentField: {
+    width: '90%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',

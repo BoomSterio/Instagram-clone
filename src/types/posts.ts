@@ -1,8 +1,8 @@
 export interface Comment {
-  id: string
   userId: string
   username: string
   message: string
+  likesByUsers?: string[]
 }
 
 export interface PostData {
