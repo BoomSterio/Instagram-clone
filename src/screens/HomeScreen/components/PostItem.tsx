@@ -23,12 +23,10 @@ interface PostFooterProps {
   id: string
   userId: string
   likesByUsers?: string[]
-  topComments?: Comment[]
+  comments?: Comment[]
   username: string
   caption?: string
-  commentsCount: number
   createdAt: Date
-  profileImageUrl?: string
 }
 
 interface PostCommentProps {
@@ -39,7 +37,7 @@ interface PostCommentProps {
 interface PostCommentFieldProps {
   postId: string
   userId: string
-  profileImageUrl?: string
+  profilePicture?: string
   commentAuthor?: string
 }
 
@@ -67,17 +65,7 @@ const PostImage = ({ imageUrl }: PostImageProps) => (
   </View>
 )
 
-const PostFooter = ({
-  id,
-  userId,
-  likesByUsers,
-  topComments = [],
-  username,
-  caption,
-  commentsCount,
-  createdAt,
-  profileImageUrl,
-}: PostFooterProps) => {
+const PostFooter = ({ id, userId, likesByUsers, comments = [], username, caption, createdAt }: PostFooterProps) => {
   const { userInfo } = useUser()
 
   const isLiked = useMemo(() => likesByUsers?.includes(userInfo?.id as string), [likesByUsers])
@@ -120,22 +108,24 @@ const PostFooter = ({
           </Text>
         ) : null}
         <PostComment username={username} caption={caption} />
-        {commentsCount && commentsCount > 0 ? (
+        {comments?.length && comments.length > 0 ? (
           <TouchableOpacity style={{ marginTop: 4 }}>
             <Text style={{ color: 'grey' }}>
-              View {commentsCount > 1 ? `all ${commentsCount} comments` : `${commentsCount} comment`}
+              View {comments.length > 1 ? `all ${comments.length} comments` : `${comments.length} comment`}
             </Text>
           </TouchableOpacity>
         ) : null}
-        {topComments?.length > 0
-          ? topComments?.map(({ message, username: commentAuthor }, i) => (
-              <PostComment key={i} caption={message} username={commentAuthor} />
-            ))
+        {comments?.length > 0
+          ? comments
+              ?.slice(0, 2)
+              .map(({ message, username: commentAuthor }, i) => (
+                <PostComment key={i} caption={message} username={commentAuthor} />
+              ))
           : null}
         <PostCommentField
           postId={id}
           userId={userId}
-          profileImageUrl={profileImageUrl}
+          profilePicture={userInfo?.profilePicture}
           commentAuthor={userInfo?.username}
         />
         <Text style={styles.timeAgo}>{moment(createdAt).fromNow()}</Text>
@@ -144,7 +134,7 @@ const PostFooter = ({
   )
 }
 
-const PostCommentField = ({ postId, userId, profileImageUrl, commentAuthor }: PostCommentFieldProps) => {
+const PostCommentField = ({ postId, userId, profilePicture, commentAuthor }: PostCommentFieldProps) => {
   const [message, setMessage] = useState('')
 
   const handleComment = () => {
@@ -171,7 +161,7 @@ const PostCommentField = ({ postId, userId, profileImageUrl, commentAuthor }: Po
 
   return (
     <View style={styles.commentField}>
-      <ProfilePicture hideGradient diameter={32} imageUrl={profileImageUrl} />
+      <ProfilePicture hideGradient diameter={32} imageUrl={profilePicture} />
       <TextInput
         value={message}
         onChangeText={setMessage}
@@ -198,7 +188,7 @@ const PostComment = ({ username, caption }: PostCommentProps) => (
 )
 
 export const PostItem = ({
-  post: { id, username, userId, profileImageUrl, imageUrl, caption, likesByUsers, comments, commentsCount, createdAt },
+  post: { id, username, userId, profileImageUrl, imageUrl, caption, likesByUsers, comments, createdAt },
 }: PostItemProps) => {
   return (
     <View>
@@ -207,10 +197,8 @@ export const PostItem = ({
       <PostFooter
         id={id}
         userId={userId}
-        profileImageUrl={profileImageUrl}
         likesByUsers={likesByUsers}
-        topComments={comments}
-        commentsCount={commentsCount}
+        comments={comments}
         username={username}
         caption={caption}
         createdAt={createdAt}
