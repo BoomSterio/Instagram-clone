@@ -16,23 +16,9 @@ const Provider: FunctionComponent = ({ children }) => {
   const userHandler = (user: UserAuth) => {
     if (user) {
       setUserAuth(user)
-      return
-    }
-    setUserAuth(null)
-  }
-
-  useEffect(() => {
-    auth.onAuthStateChanged((user: UserAuth) => userHandler(user))
-  }, [])
-
-  useEffect(() => {
-    if (!userAuth) {
-      return
-    }
-
-    return db
+      return db
       .collection('users')
-      .doc(userAuth.uid)
+      .doc(user.uid)
       .onSnapshot((snapshot) => {
         const data = snapshot.data()
         if (!data) {
@@ -46,7 +32,13 @@ const Provider: FunctionComponent = ({ children }) => {
         }
         setUserInfo(userData)
       })
-  }, [userAuth])
+    }
+    setUserAuth(null)
+  }
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user: UserAuth) => userHandler(user))
+  }, [])
 
   return <Context.Provider value={{ userAuth, userInfo }}>{children}</Context.Provider>
 }

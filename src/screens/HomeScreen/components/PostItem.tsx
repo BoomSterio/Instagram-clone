@@ -1,13 +1,18 @@
 import { postFooterIcons } from 'assets'
-import { IconButton, ProfilePicture } from 'components'
+import { IconButton, ProfilePicture, TextInput } from 'components'
+import { db } from 'config'
 import moment from 'moment'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { useUser } from 'providers'
+import { useMemo, useState } from 'react'
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
 import { Comment, Post } from 'types'
+import firebase from 'firebase/compat/app'
+import { getErrorMessage } from 'utils'
 
 interface PostHeaderProps {
   username: string
-  profileImageUrl: string
+  profileImageUrl?: string
 }
 
 interface PostImageProps {
@@ -15,17 +20,25 @@ interface PostImageProps {
 }
 
 interface PostFooterProps {
-  likesCount?: number
-  topComments?: Comment[]
+  id: string
+  userId: string
+  likesByUsers?: string[]
+  comments?: Comment[]
   username: string
   caption?: string
-  commentsCount: number
   createdAt: Date
 }
 
 interface PostCommentProps {
   username: string
   caption?: string
+}
+
+interface PostCommentFieldProps {
+  postId: string
+  userId: string
+  profilePicture?: string
+  commentAuthor?: string
 }
 
 interface PostItemProps {
@@ -52,12 +65,34 @@ const PostImage = ({ imageUrl }: PostImageProps) => (
   </View>
 )
 
-const PostFooter = ({ likesCount, topComments = [], username, caption, commentsCount, createdAt }: PostFooterProps) => {
+const PostFooter = ({ id, userId, likesByUsers, comments = [], username, caption, createdAt }: PostFooterProps) => {
+  const { userInfo } = useUser()
+
+  const isLiked = useMemo(() => likesByUsers?.includes(userInfo?.id as string), [likesByUsers])
+
+  const handleLike = () => {
+    db.collection('users')
+      .doc(userId)
+      .collection('posts')
+      .doc(id)
+      .update({
+        likesByUsers: !isLiked
+          ? firebase.firestore.FieldValue.arrayUnion(userInfo?.id)
+          : firebase.firestore.FieldValue.arrayRemove(userInfo?.id),
+      })
+      .then(() => console.log('Successfully changed like status'))
+      .catch((err) => Alert.alert('Could not change like status', getErrorMessage(err)))
+  }
+
   return (
     <View style={styles.postFooter}>
       <View style={styles.postFooterButtons}>
         <View style={styles.footerLeftButtons}>
-          <IconButton icon={postFooterIcons.like} imgStyle={styles.footerIcon} />
+          <IconButton
+            icon={isLiked ? postFooterIcons.filledLike : postFooterIcons.like}
+            imgStyle={styles.footerIcon}
+            onPress={handleLike}
+          />
           <IconButton icon={postFooterIcons.comment} imgStyle={styles.footerIcon} />
           <IconButton icon={postFooterIcons.share} imgStyle={styles.footerIcon} />
         </View>
@@ -67,24 +102,80 @@ const PostFooter = ({ likesCount, topComments = [], username, caption, commentsC
       </View>
 
       <View style={{ marginLeft: 10 }}>
-        {likesCount != null ? (
-          <Text style={{ color: 'white', fontWeight: '700', marginVertical: 4 }}>{likesCount} likes</Text>
+        {likesByUsers?.length != null ? (
+          <Text style={{ color: 'white', fontWeight: '700', marginVertical: 4 }}>
+            {likesByUsers.length.toLocaleString('en')} likes
+          </Text>
         ) : null}
         <PostComment username={username} caption={caption} />
-        {commentsCount && commentsCount > 0 ? (
+        {comments?.length && comments.length > 0 ? (
           <TouchableOpacity style={{ marginTop: 4 }}>
             <Text style={{ color: 'grey' }}>
-              View {commentsCount > 1 ? `all ${commentsCount} comments` : `${commentsCount} comment`}
+              View {comments.length > 1 ? `all ${comments.length} comments` : `${comments.length} comment`}
             </Text>
           </TouchableOpacity>
         ) : null}
-        {topComments?.length > 0
-          ? topComments?.map(({ message, username: commentAuthor }, i) => (
-              <PostComment key={i} caption={message} username={commentAuthor} />
-            ))
+        {comments?.length > 0
+          ? comments
+              ?.slice(0, 2)
+              .map(({ message, username: commentAuthor }, i) => (
+                <PostComment key={i} caption={message} username={commentAuthor} />
+              ))
           : null}
+        <PostCommentField
+          postId={id}
+          userId={userId}
+          profilePicture={userInfo?.profilePicture}
+          commentAuthor={userInfo?.username}
+        />
         <Text style={styles.timeAgo}>{moment(createdAt).fromNow()}</Text>
       </View>
+    </View>
+  )
+}
+
+const PostCommentField = ({ postId, userId, profilePicture, commentAuthor }: PostCommentFieldProps) => {
+  const [message, setMessage] = useState('')
+
+  const handleComment = () => {
+    const comment: Comment = {
+      userId,
+      message,
+      username: commentAuthor || userId,
+      likesByUsers: [],
+    }
+
+    db.collection('users')
+      .doc(userId)
+      .collection('posts')
+      .doc(postId)
+      .update({
+        comments: firebase.firestore.FieldValue.arrayUnion(comment),
+      })
+      .then(() => {
+        console.log('Comment was sent')
+        setMessage('')
+      })
+      .catch((err) => Alert.alert('Could not sent comment', getErrorMessage(err)))
+  }
+
+  return (
+    <View style={styles.commentField}>
+      <ProfilePicture hideGradient diameter={32} imageUrl={profilePicture} />
+      <TextInput
+        value={message}
+        onChangeText={setMessage}
+        onSubmitEditing={handleComment}
+        placeholder="Add a comment..."
+        placeholderTextColor={'grey'}
+        keyboardType="default"
+        returnKeyType="done"
+        blurOnSubmit
+        multiline
+        maxLength={150}
+        style={{ color: 'white', alignSelf: 'stretch' }}
+        containerStyle={{ paddingVertical: 0 }}
+      />
     </View>
   )
 }
@@ -97,16 +188,17 @@ const PostComment = ({ username, caption }: PostCommentProps) => (
 )
 
 export const PostItem = ({
-  post: { username, profileImageUrl, imageUrl, caption, likes, comments, commentsCount, createdAt },
+  post: { id, username, userId, profileImageUrl, imageUrl, caption, likesByUsers, comments, createdAt },
 }: PostItemProps) => {
   return (
     <View>
       <PostHeader username={username} profileImageUrl={profileImageUrl} />
       <PostImage imageUrl={imageUrl} />
       <PostFooter
-        likesCount={likes}
-        topComments={comments}
-        commentsCount={commentsCount}
+        id={id}
+        userId={userId}
+        likesByUsers={likesByUsers}
+        comments={comments}
         username={username}
         caption={caption}
         createdAt={createdAt}
@@ -156,9 +248,16 @@ const styles = StyleSheet.create({
     height: 26,
     marginHorizontal: 10,
   },
+  commentField: {
+    width: '90%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginTop: 4,
+  },
   timeAgo: {
     color: 'grey',
     fontSize: 9,
-    marginTop: 4
+    marginTop: 4,
   },
 })

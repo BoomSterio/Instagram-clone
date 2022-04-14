@@ -1,38 +1,19 @@
 import { useEffect, useState } from 'react'
-import { Post } from 'types'
+import { PostData, Post } from 'types'
 import { db } from 'config'
 
 export const usePosts = () => {
   const [data, setData] = useState<Post[]>([])
 
   useEffect(() => {
-    return db.collectionGroup('posts').onSnapshot((snapshot) => {
+    return db.collectionGroup('posts')
+    .orderBy('createdAt', 'desc')
+    .onSnapshot((snapshot) => {
       const posts: Post[] = snapshot.docs.map((doc) => {
-        const {
-          userId,
-          caption,
-          imageUrl,
-          username,
-          likes,
-          likesByUsers,
-          comments,
-          commentsCount,
-          profileImageUrl,
-          createdAt,
-        } = doc.data()
-
+        const postData = doc.data() as PostData
         return {
           id: doc.id,
-          userId,
-          caption,
-          imageUrl,
-          username,
-          likes,
-          likesByUsers,
-          comments,
-          commentsCount,
-          profileImageUrl,
-          createdAt,
+          ...postData
         }
       })
       setData(posts)
