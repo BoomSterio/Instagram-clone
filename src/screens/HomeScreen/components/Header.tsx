@@ -1,9 +1,8 @@
 import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { HeaderLogo } from 'assets'
-import { IconButton } from 'components'
-import { useNavigation } from '@react-navigation/native'
-import { NavigationProps, NavTab, auth } from 'config'
+import { auth } from 'config'
 import { getErrorMessage } from 'utils'
+import { IconButton } from 'components'
 
 const handleSignOut = async () => {
   try {
@@ -15,8 +14,6 @@ const handleSignOut = async () => {
 }
 
 export const Header = () => {
-  const navigation = useNavigation<NavigationProps>()
-
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handleSignOut}>
@@ -24,25 +21,10 @@ export const Header = () => {
       </TouchableOpacity>
       <View style={styles.iconsContainer}>
         <IconButton
-          icon={'https://img.icons8.com/fluency-systems-regular/60/ffffff/plus-2-math.png'}
+          icon="https://img.icons8.com/fluency-systems-regular/60/ffffff/facebook-messenger.png"
           imgStyle={styles.icon}
-          onPress={() => navigation.push(NavTab.NewPost)}
+          badgeNumber={2}
         />
-        <IconButton
-          icon={'https://img.icons8.com/fluency-systems-regular/60/ffffff/like--v1.png'}
-          imgStyle={styles.icon}
-        />
-        <TouchableOpacity>
-          <View style={styles.unreadBadge}>
-            <Text style={styles.unreadBadgeNumber}>25</Text>
-          </View>
-          <Image
-            style={styles.icon}
-            source={{
-              uri: 'https://img.icons8.com/fluency-systems-regular/60/ffffff/facebook-messenger.png',
-            }}
-          />
-        </TouchableOpacity>
       </View>
     </View>
   )
@@ -69,21 +51,5 @@ const styles = StyleSheet.create({
     height: 30,
     resizeMode: 'contain',
     marginLeft: 10,
-  },
-  unreadBadge: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    zIndex: 100,
-    left: 20,
-    bottom: 18,
-    width: 26,
-    height: 19,
-    borderRadius: 25,
-    backgroundColor: '#FF3250',
-  },
-  unreadBadgeNumber: {
-    color: 'white',
-    fontWeight: '600',
   },
 })

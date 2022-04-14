@@ -1,26 +1,35 @@
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { IconButton } from 'components/IconButton/IconButton'
-import { navbarTabs, NavTab } from 'config'
-import { useState } from 'react'
+import { navbarTabs, NavTab, NavigationProps } from 'config'
 import { ImageStyle, StyleSheet, View, ViewStyle } from 'react-native'
 
 export const Navbar = () => {
-  const [activeTab, setActiveTab] = useState<NavTab>(NavTab.Home)
+  const navigation = useNavigation<NavigationProps>()
+  const { name: routeName } = useRoute()
+
+  const handleRedirect = (newRoute?: NavTab) => () => {
+    if (!newRoute) {
+      return
+    }
+
+    navigation.push(newRoute)
+  }
 
   return (
     <View style={styles.container}>
-      {navbarTabs.map(({ name, selectedIcon, icon }) => {
-        const currentIcon = activeTab === name ? selectedIcon : icon
+      {navbarTabs.map(({ name, path, selectedIcon, icon }) => {
+        const currentIcon = routeName === name ? selectedIcon : icon
 
         return (
           <IconButton
             style={[
               name === NavTab.Profile ? styles.profilePic() : null,
-              name === NavTab.Profile && activeTab === NavTab.Profile ? styles.profilePic(activeTab) : null,
+              name === NavTab.Profile && routeName === NavTab.Profile ? styles.profilePic(routeName) : null,
             ]}
             imgStyle={[styles.icon, name === NavTab.Profile ? styles.profilePic() : null]}
             key={name}
             icon={currentIcon}
-            onPress={() => setActiveTab(name)}
+            onPress={handleRedirect(path)}
           />
         )
       })}

@@ -15,11 +15,13 @@ export interface MenuItem {
   name: NavTab
   selectedIcon: ImageSourcePropType | string
   icon: ImageSourcePropType | string
+  path?: NavTab
 }
 
 export const navbarTabs: MenuItem[] = [
   {
     name: NavTab.Home,
+    path: NavTab.Home,
     selectedIcon: HomeSelectedIcon,
     icon: HomeIcon,
   },
@@ -29,7 +31,8 @@ export const navbarTabs: MenuItem[] = [
     icon: SearchIcon,
   },
   {
-    name: NavTab.Add,
+    name: NavTab.NewPost,
+    path: NavTab.NewPost,
     selectedIcon: AddSelectedIcon,
     icon: AddIcon,
   },

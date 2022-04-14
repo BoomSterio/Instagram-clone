@@ -35,7 +35,7 @@ export const AddPostForm = () => {
         commentsCount: 0,
         likesByUsers: [],
         username: userInfo?.username,
-        createdAt: moment().toISOString()
+        createdAt: moment().toISOString(),
       })
       .then(() => navigation.goBack())
   }
