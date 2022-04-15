@@ -2,8 +2,17 @@ import { IconButton } from 'components'
 import { StyleSheet, Text, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { NavigationProps } from 'config'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { useContext } from 'react'
+import Context from './Context'
 
-export const Header = () => {
+interface HeaderProps {
+  handleNext: () => void
+  handleBack: () => void
+}
+
+export const Header = ({handleNext, handleBack}: HeaderProps) => {
+  const { currentTab } = useContext(Context)
   const navigation = useNavigation<NavigationProps>()
 
   return (
@@ -11,10 +20,14 @@ export const Header = () => {
       <IconButton
         imgStyle={styles.backButton}
         icon={{ uri: 'https://img.icons8.com/ios-glyphs/90/ffffff/back--v1.png' }}
-        onPress={() => navigation.goBack()}
+        onPress={handleBack}
       />
       <Text style={styles.text}>New Post</Text>
-      <View />
+      {currentTab !== 'publish' && (
+        <TouchableOpacity onPress={handleNext}>
+          <Text style={styles.nextButton}>Next</Text>
+        </TouchableOpacity>
+      )}
     </View>
   )
 }
@@ -34,6 +47,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '700',
     fontSize: 18,
-    marginRight: 24,
+    marginLeft: 16,
+  },
+  nextButton: {
+    color: '#03a1fc',
+    fontSize: 18,
+    paddingHorizontal: 4,
   },
 })
