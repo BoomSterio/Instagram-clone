@@ -1,10 +1,11 @@
-import * as React from 'react';
-import { FormikValues } from 'formik';
+import * as React from 'react'
+import { FormikValues } from 'formik'
 
 interface ControllerContextProps {
   formState: FormikValues
   setFormState: React.Dispatch<React.SetStateAction<FormikValues>>
   setHandleSubmit: React.Dispatch<React.SetStateAction<(...args: any[]) => any>>
+  handleConfirmStep: () => void
   currentTab: any
 }
 
@@ -12,9 +13,10 @@ const defaultValues: ControllerContextProps = {
   formState: {},
   setFormState: () => {},
   setHandleSubmit: () => {},
-  currentTab: 'fileSelection'
-};
+  handleConfirmStep: () => {},
+  currentTab: 'fileSelection',
+}
 
-const ControllerContext = React.createContext<ControllerContextProps>(defaultValues);
+const ControllerContext = React.createContext<ControllerContextProps>(defaultValues)
 
-export default ControllerContext;
+export default ControllerContext

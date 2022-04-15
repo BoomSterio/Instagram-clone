@@ -21,11 +21,7 @@ export const enum TabsName {
 export const tabsOrder: TabsName[] = [TabsName.fileSelection, TabsName.form, TabsName.publish]
 
 export const TabPanel: FunctionComponent<TabPanelProps> = ({ value, index, children }) => {
-  return value === index ? (
-    <>
-      {children}
-    </>
-  ) : null
+  return value === index ? <>{children}</> : null
 }
 
 export const NewPostWizzard = () => {
@@ -35,31 +31,35 @@ export const NewPostWizzard = () => {
 
   const navigation = useNavigation<NavigationProps>()
 
-  const handleBack = useCallback(() => {
-    const index = Math.max(0, tabsOrder.findIndex((val) => val === value) - 1)
+  const handleBackButton = useCallback(() => {
+    const index = tabsOrder.findIndex((val) => val === value)
 
     if (index === 0) {
       navigation.goBack()
     }
 
-    setValue(tabsOrder[index])
+    const newIndex = Math.max(0, tabsOrder.findIndex((val) => val === value) - 1)
+    setValue(tabsOrder[newIndex])
   }, [value])
 
-  const handleNext = () => {
+  const handleNextButton = () => {
+    if (handleSubmit) {
+      handleSubmit()
+    }
+  }
+
+  const handleConfirmStep = () => {
     const index = tabsOrder.findIndex((val) => val === value)
 
     if (index < 2) {
       setValue(tabsOrder[index + 1])
-    }
-
-    if (handleSubmit) {
-      handleSubmit();
+      return
     }
   }
 
   return (
-    <Context.Provider value={{ currentTab: value, formState, setFormState, setHandleSubmit }}>
-      <Header handleNext={handleNext} handleBack={handleBack} />
+    <Context.Provider value={{ currentTab: value, formState, setFormState, setHandleSubmit, handleConfirmStep }}>
+      <Header handleNext={handleNextButton} handleBack={handleBackButton} />
       <TabPanel value={value} index={'fileSelection'}>
         <FileSelection />
       </TabPanel>

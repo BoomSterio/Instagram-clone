@@ -11,7 +11,7 @@ interface HeaderProps {
   handleBack: () => void
 }
 
-export const Header = ({handleNext, handleBack}: HeaderProps) => {
+export const Header = ({ handleNext, handleBack }: HeaderProps) => {
   const { currentTab } = useContext(Context)
   const navigation = useNavigation<NavigationProps>()
 
@@ -22,11 +22,13 @@ export const Header = ({handleNext, handleBack}: HeaderProps) => {
         icon={{ uri: 'https://img.icons8.com/ios-glyphs/90/ffffff/back--v1.png' }}
         onPress={handleBack}
       />
-      <Text style={styles.text}>New Post</Text>
       {currentTab !== 'publish' && (
-        <TouchableOpacity onPress={handleNext}>
-          <Text style={styles.nextButton}>Next</Text>
-        </TouchableOpacity>
+        <>
+          <Text style={styles.text}>New Post</Text>
+          <TouchableOpacity onPress={handleNext}>
+            <Text style={styles.nextButton}>Next</Text>
+          </TouchableOpacity>
+        </>
       )}
     </View>
   )

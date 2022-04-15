@@ -16,7 +16,7 @@ interface FileSelectionState {
 }
 
 export const FileSelection = () => {
-  const { formState, setFormState, setHandleSubmit, handleNext } = useContext(Context)
+  const { formState, setFormState, setHandleSubmit, handleConfirmStep } = useContext(Context)
 
   const intl = useIntl()
 
@@ -27,16 +27,17 @@ export const FileSelection = () => {
   }, [intl])
 
   useEffect(() => {
-    ;(async () => {
+    const requestPermissions = async () => {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
       if (status !== 'granted') {
         alert('Sorry, we need gallery access permissions to make this work!')
       }
-    })()
+    }
+    requestPermissions()
   }, [])
 
   const defaultValues: FileSelectionState = {
-    image: formState.preview || '',
+    image: formState.image || '',
   }
 
   const [initialValues] = useState(defaultValues)
@@ -44,15 +45,13 @@ export const FileSelection = () => {
   const { values, errors, touched, handleSubmit, setFieldValue, isValid } = useFormik<FileSelectionState>({
     initialValues,
     validationSchema,
-    validateOnMount: true,
     onSubmit: async (v) => {
       const value = {
-        ...formState,
-        image: v.image
+        ...v,
+        image: v.image,
       }
-
       setFormState(value)
-      handleNext()
+      handleConfirmStep()
     },
   })
 
@@ -62,12 +61,12 @@ export const FileSelection = () => {
 
   const selectFile = async () => {
     try {
-      const { base64 } = await ImagePicker.launchImageLibraryAsync({
+      const { base64 } = (await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         quality: 1,
         base64: true,
-      }) as ImagePicker.ImageInfo
+      })) as ImagePicker.ImageInfo
       setFieldValue('image', base64 || '')
     } catch (err) {
       alert(getErrorMessage(err))
