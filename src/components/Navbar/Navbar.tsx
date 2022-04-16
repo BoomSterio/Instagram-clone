@@ -62,6 +62,7 @@ const styles = StyleSheet.create<Style>({
     borderWidth: 2,
     borderColor: activeTab === NavTab.Profile ? '#fff' : 'transparent',
     borderRadius: 100,
+    overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
   }),

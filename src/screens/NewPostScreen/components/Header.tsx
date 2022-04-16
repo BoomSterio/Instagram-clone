@@ -1,7 +1,5 @@
 import { IconButton } from 'components'
 import { StyleSheet, Text, View } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from 'config'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useContext } from 'react'
 import Context from './Context'
@@ -13,21 +11,29 @@ interface HeaderProps {
 
 export const Header = ({ handleNext, handleBack }: HeaderProps) => {
   const { currentTab } = useContext(Context)
-  const navigation = useNavigation<NavigationProps>()
+
+  const nextButtonTitle = currentTab === 'form' ? 'Share' : 'Next'
 
   return (
     <View style={styles.container}>
-      <IconButton
-        imgStyle={styles.backButton}
-        icon={{ uri: 'https://img.icons8.com/ios-glyphs/90/ffffff/back--v1.png' }}
-        onPress={handleBack}
-      />
+      <View style={styles.element}>
+        <IconButton
+          imgStyle={styles.backButton}
+          icon={{ uri: 'https://img.icons8.com/ios-glyphs/90/ffffff/back--v1.png' }}
+          onPress={handleBack}
+        />
+      </View>
+
       {currentTab !== 'publish' && (
         <>
-          <Text style={styles.text}>New Post</Text>
-          <TouchableOpacity onPress={handleNext}>
-            <Text style={styles.nextButton}>Next</Text>
-          </TouchableOpacity>
+          <View style={styles.element}>
+            <Text style={styles.text}>New Post</Text>
+          </View>
+          <View style={styles.element}>
+            <TouchableOpacity onPress={handleNext}>
+              <Text style={styles.nextButton}>{nextButtonTitle}</Text>
+            </TouchableOpacity>
+          </View>
         </>
       )}
     </View>
@@ -41,6 +47,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 10,
   },
+  element: {
+    flex: 1
+  },
   backButton: {
     width: 30,
     height: 30,
@@ -49,11 +58,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '700',
     fontSize: 18,
-    marginLeft: 16,
+    alignSelf: 'center'
   },
   nextButton: {
     color: '#03a1fc',
     fontSize: 18,
     paddingHorizontal: 4,
+    alignSelf: 'flex-end'
   },
 })

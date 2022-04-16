@@ -6,6 +6,8 @@ import { View } from 'react-native'
 import { Header } from './Header'
 import Context from './Context'
 import { FileSelection } from './FileSelection'
+import { Divider } from 'react-native-elements'
+import { CaptionForm } from './CaptionForm'
 
 export interface TabPanelProps {
   value: string | number
@@ -60,8 +62,12 @@ export const NewPostWizzard = () => {
   return (
     <Context.Provider value={{ currentTab: value, formState, setFormState, setHandleSubmit, handleConfirmStep }}>
       <Header handleNext={handleNextButton} handleBack={handleBackButton} />
-      <TabPanel value={value} index={'fileSelection'}>
+      <Divider orientation='vertical' color={'grey'} width={1} />
+      <TabPanel value={value} index={TabsName.fileSelection}>
         <FileSelection />
+      </TabPanel>
+      <TabPanel value={value} index={TabsName.form}>
+        <CaptionForm />
       </TabPanel>
     </Context.Provider>
   )

@@ -59,6 +59,12 @@ export const FileSelection = () => {
     setHandleSubmit(() => handleSubmit)
   }, [handleSubmit, setHandleSubmit])
 
+  useEffect(() => {
+    if (errors.image && touched.image) {
+      alert('image: ' + errors.image)
+    }
+  }, [errors, touched])
+
   const selectFile = async () => {
     try {
       const { base64 } = (await ImagePicker.launchImageLibraryAsync({

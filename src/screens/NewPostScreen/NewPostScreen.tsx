@@ -1,6 +1,6 @@
 import { SafeAreaContainer } from 'components'
 import { StyleSheet } from 'react-native'
-import { AddPostForm } from './components/AddPostForm'
+import { AddPostForm } from './components/CaptionForm'
 import { NewPostWizzard } from './components/NewPostWizzard'
 
 export const NewPostScreen = () => {
