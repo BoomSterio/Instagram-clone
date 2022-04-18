@@ -5,9 +5,10 @@ import { NavigationProps } from 'config'
 import { View } from 'react-native'
 import { Header } from './Header'
 import Context from './Context'
-import { FileSelection } from './FileSelection'
+import { FileSelection } from './tabs/FileSelection'
 import { Divider } from 'react-native-elements'
-import { CaptionForm } from './CaptionForm'
+import { CaptionForm } from './tabs/CaptionForm'
+import { PostPublish } from './tabs/PostPublish'
 
 export interface TabPanelProps {
   value: string | number
@@ -68,6 +69,9 @@ export const NewPostWizzard = () => {
       </TabPanel>
       <TabPanel value={value} index={TabsName.form}>
         <CaptionForm />
+      </TabPanel>
+      <TabPanel value={value} index={TabsName.publish}>
+        <PostPublish />
       </TabPanel>
     </Context.Provider>
   )

@@ -1,10 +1,10 @@
-import { Button, TextInput } from 'components'
+import { TextInput } from 'components'
 import { useFormik } from 'formik'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { useIntl } from 'react-intl'
 import { Image, StyleSheet, View } from 'react-native'
 import * as yup from 'yup'
-import Context from './Context'
+import Context from '../Context'
 
 const PLACEHOLDER_IMG =
   'https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc='
@@ -15,26 +15,6 @@ interface CaptionFormState {
 
 export const CaptionForm = () => {
   const { formState, setFormState, setHandleSubmit, handleConfirmStep } = useContext(Context)
-  // const { userAuth, userInfo } = useUser()
-
-  // const uploadPost = (v: CaptionFormState) => {
-  //   const { imageUrl, caption } = v
-  //   db.collection('users')
-  //     .doc(userAuth?.uid)
-  //     .collection('posts')
-  //     .add({
-  //       userId: userAuth?.uid,
-  //       imageUrl,
-  //       caption,
-  //       profileImageUrl: userInfo?.profilePicture,
-  //       likes: 0,
-  //       commentsCount: 0,
-  //       likesByUsers: [],
-  //       username: userInfo?.username,
-  //       createdAt: moment().toISOString(),
-  //     })
-  //     .then(() => navigation.goBack())
-  // }
 
   const intl = useIntl()
 
@@ -76,11 +56,12 @@ export const CaptionForm = () => {
       <View style={styles.top}>
         <Image
           style={styles.image}
-          source={{ uri: formState.image ? 'data:image/jpeg;base64,' + formState.image : PLACEHOLDER_IMG }}
+          source={{ uri: formState.image ? formState.image : PLACEHOLDER_IMG }}
         />
         <TextInput
           style={styles.textInput}
           wrapperStyle={{flexShrink: 1}}
+          autoFocus
           placeholder="Describe your post..."
           placeholderTextColor={'gray'}
           multiline

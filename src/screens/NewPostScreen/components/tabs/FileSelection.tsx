@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl'
 import { Image, StyleSheet, View } from 'react-native'
 import * as yup from 'yup'
 import * as ImagePicker from 'expo-image-picker'
-import Context from './Context'
+import Context from '../Context'
 import { getErrorMessage } from 'utils'
 
 const PLACEHOLDER_IMG =
@@ -67,13 +67,13 @@ export const FileSelection = () => {
 
   const selectFile = async () => {
     try {
-      const { base64 } = (await ImagePicker.launchImageLibraryAsync({
+      const {base64} = (await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         quality: 1,
-        base64: true,
+        base64: true
       })) as ImagePicker.ImageInfo
-      setFieldValue('image', base64 || '')
+      setFieldValue('image', base64 ? 'data:image/jpeg;base64,' + base64 : '')
     } catch (err) {
       alert(getErrorMessage(err))
     }
@@ -84,7 +84,7 @@ export const FileSelection = () => {
       <View style={styles.imageWrapper}>
         <Image
           style={[styles.image, { resizeMode: values.image ? 'contain' : 'cover' }]}
-          source={{ uri: values.image ? 'data:image/jpeg;base64,' + values.image : PLACEHOLDER_IMG }}
+          source={{ uri: values.image ? values.image : PLACEHOLDER_IMG }}
         />
       </View>
       <Button textStyle={styles.buttonTitle} title="Press to select media..." onPress={selectFile} />
