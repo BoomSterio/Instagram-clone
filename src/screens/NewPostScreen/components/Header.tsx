@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   element: {
-    flex: 1
+    flex: 1,
   },
   backButton: {
     width: 30,
@@ -58,12 +58,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '700',
     fontSize: 18,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   nextButton: {
     color: '#03a1fc',
     fontSize: 18,
     paddingHorizontal: 4,
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
   },
 })

@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 20
+    margin: 20,
   },
   text: {
     color: '#03a1fc',

@@ -1,10 +1,6 @@
-import {decode as atob} from 'base-64'
+import { decode as atob } from 'base-64'
 
-export const base64ToBlob = (
-  b64Data: string,
-  contentType: string = 'image/jpeg',
-  sliceSize: number = 512,
-): Blob => {
+export const base64ToBlob = (b64Data: string, contentType: string = 'image/jpeg', sliceSize: number = 512): Blob => {
   const byteCharacters = atob(b64Data)
   const byteArrays = []
 

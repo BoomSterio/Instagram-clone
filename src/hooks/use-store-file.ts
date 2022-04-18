@@ -1,7 +1,7 @@
 import { getStorage, ref, getDownloadURL, uploadString } from 'firebase/storage'
 import { useEffect, useState } from 'react'
 import { getErrorMessage } from 'utils'
-import {decode as atob} from 'base-64'
+import { decode as atob } from 'base-64'
 
 export const useStoreFile = (file: string, fileName: string) => {
   const [downloadUrl, setDownloadUrl] = useState('')
@@ -17,7 +17,7 @@ export const useStoreFile = (file: string, fileName: string) => {
           global.atob = atob
         }
 
-        uploadString(storageRef, file, 'base64', {contentType: 'image/jpeg'})
+        uploadString(storageRef, file, 'base64', { contentType: 'image/jpeg' })
           .then(async (snapshot) => {
             const url = await getDownloadURL(snapshot.ref)
             setDownloadUrl(encodeURIComponent(url))

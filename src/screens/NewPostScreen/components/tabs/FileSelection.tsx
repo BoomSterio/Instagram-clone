@@ -67,11 +67,11 @@ export const FileSelection = () => {
 
   const selectFile = async () => {
     try {
-      const {base64} = (await ImagePicker.launchImageLibraryAsync({
+      const { base64 } = (await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         quality: 1,
-        base64: true
+        base64: true,
       })) as ImagePicker.ImageInfo
       setFieldValue('image', base64 ? 'data:image/jpeg;base64,' + base64 : '')
     } catch (err) {

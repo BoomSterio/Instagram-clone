@@ -40,7 +40,7 @@ export const CaptionForm = () => {
     onSubmit: async (v) => {
       const value = {
         ...formState,
-        ...v
+        ...v,
       }
       setFormState(value)
       handleConfirmStep()
@@ -54,13 +54,10 @@ export const CaptionForm = () => {
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-        <Image
-          style={styles.image}
-          source={{ uri: formState.image ? formState.image : PLACEHOLDER_IMG }}
-        />
+        <Image style={styles.image} source={{ uri: formState.image ? formState.image : PLACEHOLDER_IMG }} />
         <TextInput
           style={styles.textInput}
-          wrapperStyle={{flexShrink: 1}}
+          wrapperStyle={{ flexShrink: 1 }}
           autoFocus
           placeholder="Describe your post..."
           placeholderTextColor={'gray'}
