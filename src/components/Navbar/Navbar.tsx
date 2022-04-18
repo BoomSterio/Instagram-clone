@@ -1,7 +1,7 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { IconButton } from 'components/IconButton/IconButton'
+import { IconButton, ProfilePicture } from 'components'
 import { navbarTabs, NavTab, NavigationProps } from 'config'
-import { ImageStyle, StyleSheet, View, ViewStyle } from 'react-native'
+import { ImageStyle, Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
 export const Navbar = () => {
   const navigation = useNavigation<NavigationProps>()
@@ -20,13 +20,21 @@ export const Navbar = () => {
       {navbarTabs.map(({ name, path, selectedIcon, icon }) => {
         const currentIcon = routeName === name ? selectedIcon : icon
 
+        if (name === NavTab.Profile) {
+          return (
+            <Pressable key={name} onPress={handleRedirect(path)}>
+              <ProfilePicture
+                gradientType={routeName === NavTab.Profile ? 'selected' : 'transparent'}
+                diameter={32}
+                imageUrl={currentIcon as string}
+              />
+            </Pressable>
+          )
+        }
+
         return (
           <IconButton
-            style={[
-              name === NavTab.Profile ? styles.profilePic() : null,
-              name === NavTab.Profile && routeName === NavTab.Profile ? styles.profilePic(routeName) : null,
-            ]}
-            imgStyle={[styles.icon, name === NavTab.Profile ? styles.profilePic() : null]}
+            imgStyle={styles.icon}
             key={name}
             icon={currentIcon}
             onPress={handleRedirect(path)}

@@ -2,19 +2,20 @@ import { StyleSheet, Image } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { UserPlaceholderImage } from 'assets'
 
-type GradientType = 'primary' | 'secondary'
+const gradients = {
+  primary: ['#CA1D7E', '#E35157', '#F2963f'],
+  secondary: ['grey', 'grey'],
+  selected: ['#fff', '#fff'],
+  transparent: ['transparent', 'transparent'],
+}
+
+type GradientType = keyof typeof gradients
 
 interface ProfilePictureProps {
   imageUrl?: string
   diameter: number
   hideGradient?: boolean
   gradientType?: GradientType
-}
-
-const gradients = {
-  primary: ['#CA1D7E', '#E35157', '#F2963f'],
-  secondary: ['grey', 'grey'],
-  transparent: ['transparent', 'transparent'],
 }
 
 export const ProfilePicture = ({
