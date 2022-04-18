@@ -5,7 +5,7 @@ import { useUser } from 'providers'
 import { ImageStyle, Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
 export const Navbar = () => {
-  const {userInfo} = useUser()
+  const { userInfo } = useUser()
   const navigation = useNavigation<NavigationProps>()
   const { name: routeName } = useRoute()
 
@@ -34,14 +34,7 @@ export const Navbar = () => {
           )
         }
 
-        return (
-          <IconButton
-            imgStyle={styles.icon}
-            key={name}
-            icon={currentIcon}
-            onPress={handleRedirect(path)}
-          />
-        )
+        return <IconButton imgStyle={styles.icon} key={name} icon={currentIcon} onPress={handleRedirect(path)} />
       })}
     </View>
   )
