@@ -14,7 +14,7 @@ interface ProfilePictureProps {
 const gradients = {
   primary: ['#CA1D7E', '#E35157', '#F2963f'],
   secondary: ['grey', 'grey'],
-  transparent: ['transparent', 'transparent']
+  transparent: ['transparent', 'transparent'],
 }
 
 export const ProfilePicture = ({

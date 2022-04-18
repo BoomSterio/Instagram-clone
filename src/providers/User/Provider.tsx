@@ -17,21 +17,21 @@ const Provider: FunctionComponent = ({ children }) => {
     if (user) {
       setUserAuth(user)
       return db
-      .collection('users')
-      .doc(user.uid)
-      .onSnapshot((snapshot) => {
-        const data = snapshot.data()
-        if (!data) {
-          return
-        }
+        .collection('users')
+        .doc(user.uid)
+        .onSnapshot((snapshot) => {
+          const data = snapshot.data()
+          if (!data) {
+            return
+          }
 
-        const userData: User = {
-          id: data.userId,
-          username: data.username,
-          profilePicture: data.profilePicture,
-        }
-        setUserInfo(userData)
-      })
+          const userData: User = {
+            id: data.userId,
+            username: data.username,
+            profilePicture: data.profilePicture,
+          }
+          setUserInfo(userData)
+        })
     }
     setUserAuth(null)
   }

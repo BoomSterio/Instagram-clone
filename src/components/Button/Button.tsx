@@ -1,14 +1,15 @@
-import { Pressable, PressableProps, StyleProp, StyleSheet, Text, ViewStyle } from 'react-native'
+import { Pressable, PressableProps, StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native'
 
 interface ButtonProps extends PressableProps {
   title?: string
   style?: StyleProp<ViewStyle>
+  textStyle?: StyleProp<TextStyle>
 }
 
-export const Button = ({ title = 'OK', style, disabled, ...props }: ButtonProps) => {
+export const Button = ({ title = 'OK', style, textStyle, disabled, ...props }: ButtonProps) => {
   return (
     <Pressable style={[styles.button, style]} {...props}>
-      <Text style={{ color: disabled ? 'gray' : '#fff', ...styles.text }}>{title}</Text>
+      <Text style={[{ color: disabled ? 'gray' : '#fff', ...styles.text }, textStyle]}>{title}</Text>
     </Pressable>
   )
 }

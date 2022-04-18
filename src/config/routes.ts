@@ -6,7 +6,6 @@ export enum NavTab {
   Home = 'Home',
   NewPost = 'NewPost',
   Search = 'Search',
-  Add = 'Add',
   Activity = 'Activity',
   Profile = 'Profile',
   LogIn = 'LogIn',
@@ -18,6 +17,9 @@ type StackParamList = {
   NewPost: undefined
   SignUp: undefined
   LogIn: undefined
+  Search: undefined
+  Activity: undefined
+  Profile: undefined
 }
 
 export type NavigationProps = StackNavigationProp<StackParamList>
