@@ -1,9 +1,11 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { IconButton, ProfilePicture } from 'components'
 import { navbarTabs, NavTab, NavigationProps } from 'config'
+import { useUser } from 'providers'
 import { ImageStyle, Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
 export const Navbar = () => {
+  const {userInfo} = useUser()
   const navigation = useNavigation<NavigationProps>()
   const { name: routeName } = useRoute()
 
@@ -26,7 +28,7 @@ export const Navbar = () => {
               <ProfilePicture
                 gradientType={routeName === NavTab.Profile ? 'selected' : 'transparent'}
                 diameter={32}
-                imageUrl={currentIcon as string}
+                imageUrl={userInfo?.profilePicture}
               />
             </Pressable>
           )
