@@ -1,10 +1,17 @@
+import { useNavigation } from '@react-navigation/native'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 export const Header = () => {
+  const navigation = useNavigation()
+
+  const handleCancel = () => {
+    navigation.goBack()
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.element}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={handleCancel}>
           <Text style={styles.backButton}>Cancel</Text>
         </TouchableOpacity>
       </View>
@@ -13,7 +20,7 @@ export const Header = () => {
       </View>
       <View style={styles.element}>
         <TouchableOpacity onPress={() => {}}>
-          <Text style={styles.nextButton}>Done</Text>
+          <Text style={styles.doneButton}>Done</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -41,7 +48,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     alignSelf: 'center',
   },
-  nextButton: {
+  doneButton: {
     color: '#03a1fc',
     fontSize: 18,
     paddingHorizontal: 4,
