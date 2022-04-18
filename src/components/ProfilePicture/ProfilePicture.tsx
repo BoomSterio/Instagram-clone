@@ -27,6 +27,8 @@ export const ProfilePicture = ({
   const imageDiameter = diameter - diameter * 0.065
   const gapDiameter = diameter / 25
 
+  const source = imageUrl ? {uri: imageUrl} : UserPlaceholderImage
+
   return (
     <LinearGradient
       colors={hideGradient ? gradients.transparent : gradients[gradientType]}
@@ -35,7 +37,7 @@ export const ProfilePicture = ({
       style={{ ...styles.userImageGradient, width: diameter, height: diameter, borderRadius: diameter / 2 }}
     >
       <Image
-        source={{ uri: imageUrl || UserPlaceholderImage }}
+        source={source}
         style={{
           borderColor: 'black',
           borderWidth: gapDiameter,

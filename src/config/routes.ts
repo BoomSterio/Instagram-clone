@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { HomeScreen, LogInScreen, NewPostScreen, SignUpScreen } from 'screens'
+import { HomeScreen, LogInScreen, NewPostScreen, ProfileEditScreen, SignUpScreen } from 'screens'
 import { StackNavigationProp } from '@react-navigation/stack'
 
 export enum NavTab {
@@ -37,6 +37,10 @@ export const signedInRoutes: Route[] = [
   {
     name: NavTab.NewPost,
     component: NewPostScreen,
+  },
+  {
+    name: NavTab.Profile,
+    component: ProfileEditScreen,
   },
 ]
 
