@@ -5,7 +5,7 @@ import { useFormik } from 'formik'
 import { useMemo, useState } from 'react'
 import { useIntl } from 'react-intl'
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { getErrorMessage, getRandomPicture } from 'utils'
+import { getErrorMessage } from 'utils'
 import * as yup from 'yup'
 
 interface SignUpState {
@@ -32,7 +32,7 @@ export const SignUpForm = () => {
           userId: response.user?.uid,
           username,
           email,
-          profilePicture: await getRandomPicture(),
+          profilePicture: '',
         })
     } catch (err) {
       Alert.alert('Auth error 💀', getErrorMessage(err))

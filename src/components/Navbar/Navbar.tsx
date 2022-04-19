@@ -1,14 +1,16 @@
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { IconButton } from 'components/IconButton/IconButton'
+import { IconButton, ProfilePicture } from 'components'
 import { navbarTabs, NavTab, NavigationProps } from 'config'
-import { ImageStyle, StyleSheet, View, ViewStyle } from 'react-native'
+import { useUser } from 'providers'
+import { ImageStyle, Pressable, StyleSheet, View, ViewStyle } from 'react-native'
 
 export const Navbar = () => {
+  const { userInfo } = useUser()
   const navigation = useNavigation<NavigationProps>()
   const { name: routeName } = useRoute()
 
   const handleRedirect = (newRoute?: NavTab) => () => {
-    if (!newRoute) {
+    if (!newRoute || routeName === newRoute) {
       return
     }
 
@@ -20,18 +22,19 @@ export const Navbar = () => {
       {navbarTabs.map(({ name, path, selectedIcon, icon }) => {
         const currentIcon = routeName === name ? selectedIcon : icon
 
-        return (
-          <IconButton
-            style={[
-              name === NavTab.Profile ? styles.profilePic() : null,
-              name === NavTab.Profile && routeName === NavTab.Profile ? styles.profilePic(routeName) : null,
-            ]}
-            imgStyle={[styles.icon, name === NavTab.Profile ? styles.profilePic() : null]}
-            key={name}
-            icon={currentIcon}
-            onPress={handleRedirect(path)}
-          />
-        )
+        if (name === NavTab.Profile) {
+          return (
+            <Pressable key={name} onPress={handleRedirect(path)}>
+              <ProfilePicture
+                gradientType={routeName === NavTab.Profile ? 'selected' : 'transparent'}
+                diameter={32}
+                imageUrl={userInfo?.profilePicture}
+              />
+            </Pressable>
+          )
+        }
+
+        return <IconButton imgStyle={styles.icon} key={name} icon={currentIcon} onPress={handleRedirect(path)} />
       })}
     </View>
   )
@@ -47,6 +50,7 @@ const styles = StyleSheet.create<Style>({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 10,
     width: '100%',

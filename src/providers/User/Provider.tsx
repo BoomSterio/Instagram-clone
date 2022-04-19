@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent, useEffect } from 'react'
+import { useState, FunctionComponent, useEffect } from 'react'
 
 import Context from './Context'
 import { auth, db } from 'config'
@@ -7,6 +7,10 @@ import { User, UserAuth } from 'types'
 export interface UserContextType {
   userAuth: UserAuth
   userInfo: User | null
+}
+
+interface UserData extends User {
+  userId: string
 }
 
 const Provider: FunctionComponent = ({ children }) => {
@@ -20,15 +24,14 @@ const Provider: FunctionComponent = ({ children }) => {
         .collection('users')
         .doc(user.uid)
         .onSnapshot((snapshot) => {
-          const data = snapshot.data()
+          const data: UserData = snapshot.data() as UserData
           if (!data) {
             return
           }
 
           const userData: User = {
+            ...data,
             id: data.userId,
-            username: data.username,
-            profilePicture: data.profilePicture,
           }
           setUserInfo(userData)
         })
