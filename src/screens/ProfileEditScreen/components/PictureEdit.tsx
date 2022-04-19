@@ -4,7 +4,6 @@ import { useFilePicker } from 'hooks'
 import { useUser } from 'providers'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { getErrorMessage } from 'utils'
-import firebase from 'firebase/compat/app'
 
 export const PictureEdit = () => {
   const { userInfo } = useUser()
@@ -29,7 +28,9 @@ export const PictureEdit = () => {
 
   return (
     <View style={styles.container}>
-      <ProfilePicture hideGradient diameter={110} imageUrl={userInfo?.profilePicture} />
+      <TouchableOpacity onPress={selectImage}>
+        <ProfilePicture hideGradient diameter={110} imageUrl={userInfo?.profilePicture} />
+      </TouchableOpacity>
       <TouchableOpacity onPress={selectImage}>
         <Text style={styles.button}>Change Profile Photo</Text>
       </TouchableOpacity>

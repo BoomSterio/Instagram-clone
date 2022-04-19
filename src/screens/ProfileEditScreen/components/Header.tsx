@@ -1,7 +1,10 @@
 import { useNavigation } from '@react-navigation/native'
+import { useContext } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import Context from '../Context'
 
 export const Header = () => {
+  const {handleConfirm} = useContext(Context)
   const navigation = useNavigation()
 
   const handleCancel = () => {
@@ -19,7 +22,7 @@ export const Header = () => {
         <Text style={styles.text}>Edit Profile</Text>
       </View>
       <View style={styles.element}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={handleConfirm}>
           <Text style={styles.doneButton}>Done</Text>
         </TouchableOpacity>
       </View>
@@ -33,6 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     margin: 10,
+    height: 30
   },
   element: {
     flex: 1,

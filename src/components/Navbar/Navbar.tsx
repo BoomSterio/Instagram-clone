@@ -10,7 +10,7 @@ export const Navbar = () => {
   const { name: routeName } = useRoute()
 
   const handleRedirect = (newRoute?: NavTab) => () => {
-    if (!newRoute) {
+    if (!newRoute || routeName === newRoute) {
       return
     }
 
@@ -50,6 +50,7 @@ const styles = StyleSheet.create<Style>({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 10,
     width: '100%',

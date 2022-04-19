@@ -9,7 +9,7 @@ import {
   ViewStyle,
 } from 'react-native'
 
-interface TextInputProps extends NativeTextInputProps {
+export interface TextInputProps extends NativeTextInputProps {
   error?: string
   touched?: boolean
   containerStyle?: StyleProp<ViewStyle>
@@ -36,7 +36,7 @@ interface Style {
 }
 
 const styles = StyleSheet.create<Style>({
-  input: (error?: boolean) => ({
+  input: (error?: boolean, editable?: boolean) => ({
     borderRadius: 4,
     borderBottomWidth: 1,
     borderColor: error ? 'red' : 'transparent',
