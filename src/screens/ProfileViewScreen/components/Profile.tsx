@@ -75,6 +75,7 @@ export const Profile = ({userInfo}: ProfileProps) => {
 
 const styles = StyleSheet.create({
   container: {
+    minHeight: 600,
     marginVertical: 4,
   },
   modal: {
