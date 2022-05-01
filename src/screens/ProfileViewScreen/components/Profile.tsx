@@ -58,34 +58,16 @@ export interface PreviewState {
 }
 
 export const Profile = ({userInfo}: ProfileProps) => {
-  const [posts, setPosts] = useState<Post[]>([])
   const [preview, setPreview] = useState<PreviewState>({
     post: undefined,
     selected: undefined,
     visible: new Animated.Value(0),
   })
 
-  useEffect(() => {
-    if (!userInfo?.id) {
-      return
-    }
-    const fetchPosts = async () => {
-      const snapshot = await db.collection('users')
-        .doc(userInfo.id)
-        .collection('posts')
-        .orderBy("createdAt", "desc")
-        .get()
-
-      const newPosts = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()})) as Post[]
-      setPosts(newPosts)
-    }
-    fetchPosts()
-  }, [userInfo?.id])
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <UserInfo userInfo={userInfo} />
-      <Posts posts={posts} preview={preview} setPreview={setPreview} />
+      <Posts userId={userInfo?.id} preview={preview} setPreview={setPreview} />
       <PreviewModal post={preview.post} preview={preview}/>
     </ScrollView>
   )

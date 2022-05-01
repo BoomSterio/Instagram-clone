@@ -1,13 +1,14 @@
 import { GridIcon, ListIcon } from 'assets'
 import { PostItem } from 'components'
-import { useCallback, useState } from 'react'
+import { db } from 'config'
+import { useCallback, useEffect, useState } from 'react'
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Post } from 'types'
 import { PostPreview } from './PostPreview'
 import { PreviewState } from './Profile'
 
 interface PostsProps {
-  posts: Post[]
+  userId?: string
   preview: PreviewState
   setPreview: React.Dispatch<React.SetStateAction<PreviewState>>
 }
@@ -17,8 +18,26 @@ enum Tabs {
   list = 'list',
 }
 
-export const Posts = ({ posts, preview, setPreview }: PostsProps) => {
+export const Posts = ({ userId, preview, setPreview }: PostsProps) => {
   const [tab, setTab] = useState<Tabs>(Tabs.grid)
+  const [posts, setPosts] = useState<Post[]>([])
+
+  useEffect(() => {
+    if (!userId) {
+      return
+    }
+    const fetchPosts = async () => {
+      const snapshot = await db.collection('users')
+        .doc(userId)
+        .collection('posts')
+        .orderBy("createdAt", "desc")
+        .get()
+
+      const newPosts = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()})) as Post[]
+      setPosts(newPosts)
+    }
+    fetchPosts()
+  }, [userId])
 
   const renderPosts = useCallback(() => {
     switch (tab) {
@@ -39,7 +58,7 @@ export const Posts = ({ posts, preview, setPreview }: PostsProps) => {
         )
       }
     }
-  }, [tab])
+  }, [tab, posts])
 
   return (
     <>
