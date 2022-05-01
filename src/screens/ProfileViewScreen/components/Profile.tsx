@@ -1,10 +1,10 @@
 import { db } from "config"
 import { useEffect, useState } from "react"
 import { Post, User } from "types"
-import { PostPreview } from "./PostPreview"
 import { UserInfo } from "./UserInfo"
 import { Animated, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { ProfilePicture } from "components"
+import { Posts } from "./Posts"
 
 interface ProfileProps {
   userInfo: User | null
@@ -85,11 +85,7 @@ export const Profile = ({userInfo}: ProfileProps) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <UserInfo userInfo={userInfo} />
-      <View style={styles.posts}>
-        {posts.map(post => (
-          <PostPreview key={post.id} post={post} preview={preview} setPreview={setPreview}/>
-        ))}
-      </View>
+      <Posts posts={posts} preview={preview} setPreview={setPreview} />
       <PreviewModal post={preview.post} preview={preview}/>
     </ScrollView>
   )
@@ -97,14 +93,7 @@ export const Profile = ({userInfo}: ProfileProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     marginVertical: 4,
-  },
-  posts: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start'
   },
   modal: {
     alignItems: 'center',

@@ -1,7 +1,7 @@
+import { PostItem } from 'components'
 import { usePosts } from 'hooks'
 import { View } from 'react-native'
 import { Divider } from 'react-native-elements/dist/divider/Divider'
-import { PostItem } from './PostItem'
 
 export const Posts = () => {
   const posts = usePosts()
