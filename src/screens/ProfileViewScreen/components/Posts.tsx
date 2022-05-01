@@ -1,8 +1,8 @@
-import { GridIcon, ListIcon } from 'assets'
+import { GridIcon, ListIcon, SaveIcon } from 'assets'
 import { PostItem } from 'components'
 import { db } from 'config'
 import { useCallback, useEffect, useState } from 'react'
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, ImageSourcePropType, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Post } from 'types'
 import { PostPreview } from './PostPreview'
 import { PreviewState } from './Profile'
@@ -16,7 +16,28 @@ interface PostsProps {
 enum Tabs {
   grid = 'grid',
   list = 'list',
+  saved = 'saved',
 }
+
+interface TabButton {
+  name: Tabs
+  icon: ImageSourcePropType
+}
+
+const tabButtons: TabButton[] = [
+  {
+    name: Tabs.grid,
+    icon: GridIcon,
+  },
+  {
+    name: Tabs.list,
+    icon: ListIcon,
+  },
+  {
+    name: Tabs.saved,
+    icon: SaveIcon,
+  },
+]
 
 export const Posts = ({ userId, preview, setPreview }: PostsProps) => {
   const [tab, setTab] = useState<Tabs>(Tabs.grid)
@@ -27,13 +48,9 @@ export const Posts = ({ userId, preview, setPreview }: PostsProps) => {
       return
     }
     const fetchPosts = async () => {
-      const snapshot = await db.collection('users')
-        .doc(userId)
-        .collection('posts')
-        .orderBy("createdAt", "desc")
-        .get()
+      const snapshot = await db.collection('users').doc(userId).collection('posts').orderBy('createdAt', 'desc').get()
 
-      const newPosts = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()})) as Post[]
+      const newPosts = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Post[]
       setPosts(newPosts)
     }
     fetchPosts()
@@ -51,11 +68,10 @@ export const Posts = ({ userId, preview, setPreview }: PostsProps) => {
         )
       }
       case Tabs.list: {
-        return (
-          posts.map(post => (
-            <PostItem key={post.id} post={post} />
-          ))
-        )
+        return posts.map((post) => <PostItem key={post.id} post={post} />)
+      }
+      default: {
+        return null
       }
     }
   }, [tab, posts])
@@ -63,12 +79,11 @@ export const Posts = ({ userId, preview, setPreview }: PostsProps) => {
   return (
     <>
       <View style={styles.tabs}>
-        <TouchableOpacity onPress={() => setTab(Tabs.grid)} style={[styles.tab, tab === Tabs.grid && styles.activeTab]}>
-          <Image style={styles.icon} source={GridIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setTab(Tabs.list)} style={[styles.tab, tab === Tabs.list && styles.activeTab]}>
-          <Image style={styles.icon} source={ListIcon} />
-        </TouchableOpacity>
+        {tabButtons.map(({ name, icon }) => (
+          <TouchableOpacity key={name} onPress={() => setTab(name)} style={[styles.tab, tab === name && styles.activeTab]}>
+            <Image style={styles.icon} source={icon} />
+          </TouchableOpacity>
+        ))}
       </View>
       {renderPosts()}
     </>
@@ -82,16 +97,16 @@ const styles = StyleSheet.create({
   tab: {
     flex: 1,
     alignItems: 'center',
-    padding: 12,
+    padding: 8,
+    margin: 1,
   },
   activeTab: {
-    borderRadius: 4,
-    borderBottomWidth: 4,
+    borderBottomWidth: 2,
     borderBottomColor: '#fff',
   },
   icon: {
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
     resizeMode: 'contain',
   },
   grid: {
