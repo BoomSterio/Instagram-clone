@@ -9,7 +9,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { LinearProgress } from 'react-native-elements'
 
 export const PostPublish = () => {
-  const { formState } = useContext(Context)
+  const { formState, handleBack } = useContext(Context)
   const { userAuth, userInfo } = useUser()
   const navigation = useNavigation()
 
@@ -30,6 +30,7 @@ export const PostPublish = () => {
         navigation.goBack()
       } catch (error) {
         alert(getErrorMessage(error))
+        handleBack()
       }
     }
     uploadPost()

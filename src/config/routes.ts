@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { HomeScreen, LogInScreen, NewPostScreen, ProfileEditScreen, SignUpScreen } from 'screens'
+import { HomeScreen, LogInScreen, NewPostScreen, ProfileEditScreen, ProfileViewScreen, SignUpScreen } from 'screens'
 import { StackNavigationProp } from '@react-navigation/stack'
 
 export enum NavTab {
@@ -7,7 +7,8 @@ export enum NavTab {
   NewPost = 'NewPost',
   Search = 'Search',
   Activity = 'Activity',
-  Profile = 'Profile',
+  ProfileView = 'ProfileView',
+  ProfileEdit = 'ProfileEdit',
   LogIn = 'LogIn',
   SignUp = 'SignUp',
 }
@@ -19,7 +20,8 @@ type StackParamList = {
   LogIn: undefined
   Search: undefined
   Activity: undefined
-  Profile: undefined
+  ProfileView: undefined
+  ProfileEdit: undefined
 }
 
 export type NavigationProps = StackNavigationProp<StackParamList>
@@ -39,7 +41,11 @@ export const signedInRoutes: Route[] = [
     component: NewPostScreen,
   },
   {
-    name: NavTab.Profile,
+    name: NavTab.ProfileView,
+    component: ProfileViewScreen,
+  },
+  {
+    name: NavTab.ProfileEdit,
     component: ProfileEditScreen,
   },
 ]

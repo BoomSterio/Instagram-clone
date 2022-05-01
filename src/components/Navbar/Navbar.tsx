@@ -22,11 +22,11 @@ export const Navbar = () => {
       {navbarTabs.map(({ name, path, selectedIcon, icon }) => {
         const currentIcon = routeName === name ? selectedIcon : icon
 
-        if (name === NavTab.Profile) {
+        if (name === NavTab.ProfileView) {
           return (
             <Pressable key={name} onPress={handleRedirect(path)}>
               <ProfilePicture
-                gradientType={routeName === NavTab.Profile ? 'selected' : 'transparent'}
+                gradientType={routeName === NavTab.ProfileView ? 'selected' : 'transparent'}
                 diameter={32}
                 imageUrl={userInfo?.profilePicture}
               />
@@ -64,7 +64,7 @@ const styles = StyleSheet.create<Style>({
   },
   profilePic: (activeTab?: NavTab) => ({
     borderWidth: 2,
-    borderColor: activeTab === NavTab.Profile ? '#fff' : 'transparent',
+    borderColor: activeTab === NavTab.ProfileView ? '#fff' : 'transparent',
     borderRadius: 100,
     overflow: 'hidden',
     alignItems: 'center',

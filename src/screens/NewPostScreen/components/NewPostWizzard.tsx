@@ -61,7 +61,7 @@ export const NewPostWizzard = () => {
   }
 
   return (
-    <Context.Provider value={{ currentTab: value, formState, setFormState, setHandleSubmit, handleConfirmStep }}>
+    <Context.Provider value={{ currentTab: value, formState, setFormState, setHandleSubmit, handleBack: handleBackButton, handleConfirmStep }}>
       <Header handleNext={handleNextButton} handleBack={handleBackButton} />
       <Divider orientation="vertical" color={'grey'} width={1} />
       <TabPanel value={value} index={TabsName.fileSelection}>

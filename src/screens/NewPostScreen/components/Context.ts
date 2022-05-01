@@ -6,6 +6,7 @@ interface ControllerContextProps {
   setFormState: React.Dispatch<React.SetStateAction<FormikValues>>
   setHandleSubmit: React.Dispatch<React.SetStateAction<(...args: any[]) => any>>
   handleConfirmStep: () => void
+  handleBack: () => void
   currentTab: any
 }
 
@@ -14,6 +15,7 @@ const defaultValues: ControllerContextProps = {
   setFormState: () => {},
   setHandleSubmit: () => {},
   handleConfirmStep: () => {},
+  handleBack: () => {},
   currentTab: 'fileSelection',
 }
 
